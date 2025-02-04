@@ -9,14 +9,14 @@ function Type() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <span className="text-green-500">$ </span>
+      <span className="text-green-500">$_</span>
       <span className="text-white">
         <Typewriter
           words={[
             "Hey, I'm Aakash Prajapati.",
-            "I'm a Laravel Developer.",
-            "I'm a MERN Stack Developer.",
-            "I love building cool projects.",
+            "A Laravel Developer.",
+            "A MERN Stack Developer.",
+            "A Passionate Programmer.",
             "Welcome to my Portfolio!",
           ]}
           loop={0} // Infinite loop
