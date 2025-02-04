@@ -22,38 +22,53 @@ function Hero() {
     switch (cmd.toLowerCase()) {
       case "about":
         newOutput = (
-          <div className="flex flex-col md:flex-row  p-6 rounded-lg shadow-lg max-w-3xl mx-auto text-white">
-        
+          <div className="flex flex-col md:flex-row p-6 rounded-lg shadow-lg max-w-3xl mx-auto text-white">
+
+            {/* Right Side - Rectangular Profile Image with Glow (Moved to Top on Small Screens) */}
+            <div className="relative md:w-40 md:h-52 md:mr-6 mb-2 w-32 h-52 mt-6 md:mt-0">
+              {/* Glowing Background Effect */}
+              <div className="absolute inset-0 w-full h-full bg-green-500 blur-xl opacity-30 rounded-lg"></div>
+
+              {/* Profile Image with Thin Border and Glow */}
+              <div className="relative w-full h-full border border-green-400 rounded-lg shadow-[0px_0px_15px_rgba(34,197,94,0.6)]">
+                <img
+                  src="./src/profile.jpg"
+                  alt="Profile"
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
+                />
+              </div>
+            </div>
+
             {/* Left Side - About Text */}
             <div className="flex-1 text-left space-y-4">
               <h2 className="text-green-400 text-2xl font-bold flex items-center">
                 <i className="fa-solid fa-user text-green-400 mr-2"></i> About Me
               </h2>
               <p className="text-lg leading-relaxed">
-                Hi! I'm <span className="text-green-400">Aakash</span>, a passionate
+                Hi! I'm <span className="text-green-400">Aakash Prajapati</span>, a passionate
                 <strong> Full-Stack Developer</strong> with a strong foundation in
                 <strong> MERN Stack, Laravel, PHP, JavaScript, and CSS.</strong>
                 I specialize in crafting dynamic, scalable, and high-performance web applications that provide seamless user experiences. 🚀
               </p>
-        
+
               <p className="text-lg leading-relaxed">
                 With a keen eye for design and performance optimization, I build robust
                 <span className="text-green-400"> front-end interfaces</span> using React, Tailwind, and Bootstrap.
                 On the <span className="text-green-400"> backend</span>, I develop secure and efficient APIs with Node.js, Express, Laravel, and PHP,
                 ensuring smooth data management using MongoDB and MySQL.
               </p>
-        
+
               <p className="text-lg leading-relaxed">
                 Beyond coding, I am passionate about problem-solving, exploring new technologies, and staying updated with the latest industry trends.
                 I thrive in <span className="text-green-400">collaborative environments</span> and enjoy working with teams to bring innovative ideas to life.
                 Whether it’s a startup project, an enterprise-level application, or a personal portfolio, I am always eager to create meaningful digital solutions.
               </p>
-        
+
               <p className="text-lg leading-relaxed">
                 When I’m not coding, I enjoy contributing to open-source projects, writing tech blogs, and mentoring aspiring developers.
                 Let's connect and build something amazing together! ✨
               </p>
-        
+
               <div className="text-green-300 space-y-2">
                 <p>
                   <i className="fa-brands fa-react text-green-400 mr-2"></i>
@@ -73,26 +88,9 @@ function Hero() {
                 </p>
               </div>
             </div>
-        
-            {/* Right Side - Rectangular Profile Image with Glow */}
-            <div className="relative mt-6 md:mt-0 md:ml-6 w-40 h-52 md:w-48 md:h-60">
-              {/* Glowing Background Effect */}
-              <div className="absolute inset-0 w-full h-full bg-green-500 blur-xl opacity-30 rounded-lg"></div>
-        
-              {/* Profile Image with Thin Border and Glow */}
-              <div className="relative w-full h-full border border-green-400 rounded-lg shadow-[0px_0px_15px_rgba(34,197,94,0.6)]">
-                <img
-                  src="./src/profile.jpg"
-                  alt="Profile"
-                  className="w-full h-full object-cover rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
-        
+
           </div>
         );
-        
-
         break;
 
       case "contact":
@@ -133,6 +131,25 @@ function Hero() {
       case "projects":
         newOutput = "Check out my GitHub: github.com/aakashap";
         break;
+      case "resume":
+        newOutput = (
+          <div className="text-white">
+            <p className="text-white">Click the link below to download the resume:</p>
+            {/* Resume Download Link */}
+            <motion.a
+              href="./src/Aakash_Prajapati_Resume.pdf" 
+              download="Aakash_Prajapati_Resume.pdf"
+              className="text-green-400 hover:text-green-500 underline mt-2 inline-block"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              Download Resume
+            </motion.a>
+          </div>
+        );
+        
+        break;
       case "clear":
       case "cls":
         setOutput([]);
@@ -143,64 +160,116 @@ function Hero() {
     setOutput([...output, { command: cmd, response: newOutput }]);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <div className="overflow-hidden bg-black text-green-400 font-mono min-h-screen flex justify-center items-center">
-      <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg">
-        {/* Terminal Header */}
-        <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500">
-          <div className="flex gap-2">
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+    <>
+      <div className="overflow-hidden bg-black text-green-400 font-mono min-h-screen flex justify-center items-center">
+        <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">
+          {/* Terminal Header */}
+          <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500">
+            <div className="flex gap-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full" title="Refresh" onClick={() => window.location.reload()}></div>
+              <div className="w-3 h-3 bg-yellow-500 rounded-full" title="Back" onClick={() => window.history.back()}></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full" ></div>
+            </div>
+            <p className="text-gray-400 text-sm">~/Portfolio/AakashAp &nbsp;
+             {/* Info Icon with Tooltip */}
+              
+              <i 
+                className="fa-solid fa-info-circle text-green-500 cursor-pointer"
+                onClick={openModal} 
+              />
+              </p>
           </div>
-          <p className="text-gray-400 text-sm">~/Portfolio/AakashAp</p>
-        </div>
-
-        {/* Terminal Body */}
-        <div
-          className="p-6 h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-green-500 scrollbar-track-gray-800 scrollbar-thumb-rounded-full"
-        >
-          <Type />
-
-          <motion.hr
-            className="my-4 border-green-500 opacity-50"
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 1 }}
-          />
-
-          {/* Output Section */}
-          <div className="mt-4 text-lg">
-            {output.map((item, index) => (
-              <div key={index}>
-                <p>
-                  <span className="text-green-500">>_ </span>
-                  {item.command}
-                </p>
-                <div className="text-white">{item.response}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Input Field */}
-          <div className="mt-4 flex items-center">
-            <span className="text-green-500 text-lg">>_</span>
-            <input
-              type="text"
-              value={command}
-              onChange={(e) => setCommand(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="bg-transparent border-none outline-none text-white ml-2 w-full text-lg"
-              autoFocus
+          {isModalOpen && (
+           <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
+           <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-96 max-w-lg">
+             <h2 className="text-green-400 text-2xl font-semibold mb-4">Command Info</h2>
+             
+             <p className="text-white text-lg mb-4">
+               Below are the available commands and their actions:
+             </p>
+             
+             <ul className="list-disc pl-6 text-white space-y-2">
+               <li><span className="text-green-400 font-semibold">resume</span> - Download Resume</li>
+               <li><span className="text-green-400 font-semibold">contact</span> - Contact Info</li>
+               <li><span className="text-green-400 font-semibold">about</span> - About Info</li>
+               <li><span className="text-green-400 font-semibold">cls</span> or <span className="text-green-400 font-semibold">clear</span> - Clear Terminal</li>
+             </ul>
+         
+             <div className="mt-6 flex justify-end">
+               {/* Close Button */}
+               <button 
+                 onClick={closeModal} 
+                 className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-400 transition duration-200"
+               >
+                 Close
+               </button>
+             </div>
+           </div>
+         </div>
+         
+          )}
+  
+          {/* Terminal Body */}
+          <div
+            className="p-6 h-[500px] overflow-y-auto"
+          >
+            <Type />
+  
+            <motion.hr
+              className="my-4 border-green-500 opacity-50"
+              initial={{ width: "0%" }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 1 }}
             />
+  
+            {/* Output Section */}
+            <div className="mt-4 text-lg">
+              {output.map((item, index) => (
+                <div key={index}>
+                  <p>
+                    <span className="text-green-500">>_ </span>
+                    {item.command}
+                  </p>
+                  <div className="text-white">{item.response}</div>
+                </div>
+              ))}
+            </div>
+  
+            {/* Input Field */}
+            <div className="mt-4 flex items-center">
+              <span className="text-green-500 text-lg">>_</span>
+              <input
+                type="text"
+                value={command}
+                onChange={(e) => setCommand(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="bg-transparent border-none outline-none text-white ml-2 w-full text-lg"
+                autoFocus
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+  
+      {/* Made by Passion and Heart Emoji outside of terminal container */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full">
+        <p className="ml-2">@powered by Passion 🔥 and ❤️</p>
+      </div>
+    </>
   );
-
-
-
+  
 }
 
 export default Hero;
