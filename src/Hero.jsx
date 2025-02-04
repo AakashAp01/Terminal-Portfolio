@@ -1,141 +1,124 @@
 import { motion } from "framer-motion";
-import path from "./assets/path.json";
-
+import Type from "./Type";
+import { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 function Hero() {
+  const [command, setCommand] = useState("");
+  const [output, setOutput] = useState([]);
+
+  // Handle Enter Key
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      executeCommand(command);
+      setCommand(""); // Clear input after execution
+    }
+  };
+
+  // Command Handling Logic
+  const executeCommand = (cmd) => {
+    let newOutput = "";
+    switch (cmd.toLowerCase()) {
+      case "about":
+        newOutput = "I'm a passionate Full-Stack Developer specializing in React, Node.js, and MongoDB.";
+        break;
+      case "contact":
+        newOutput = (
+          <div className="flex flex-col space-y-3">
+            <p className="text-green-400 text-lg">✨ Let's Connect & Build Something Awesome! ✨</p>
+            
+            <p>You can reach me at:  
+              <a href="mailto:aakashap309@gmail.com" className="text-green-400 hover:underline">
+                ✉️ aakashap309@gmail.com
+              </a>
+            </p>
+        
+            <p>Feel free to drop a message! 🚀</p>
+        
+            <div className="flex gap-4 text-white text-2xl">
+              <a href="https://github.com/aakashap01" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-github hover:text-green-400"></i> 
+              </a>
+              <a href="https://www.linkedin.com/in/aakashap" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-linkedin hover:text-green-400"></i> 
+              </a>
+              <a href="https://www.facebook.com/share/1HPLsmLaTn/" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-facebook hover:text-green-400"></i> 
+              </a>
+              <a href="https://www.instagram.com/_aakash_ap_/" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-instagram hover:text-green-400"></i> 
+              </a>
+              <a href="https://x.com/akashap01" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-x-twitter hover:text-green-400"></i> 
+              </a>
+            </div>
+        
+            <p className="text-green-400">💡 Open to collaborations & new opportunities!</p>
+          </div>
+        );
+        break;
+      case "projects":
+        newOutput = "Check out my GitHub: github.com/aakashap";
+        break;
+      case "clear":
+        setOutput([]);
+        return;
+      default:
+        newOutput = `Command not found: "${cmd}". Try 'about', 'contact', or 'projects'.`;
+    }
+    setOutput([...output, { command: cmd, response: newOutput }]);
+  };
+
   return (
-    <div className="overflow-hidden">
-      <nav className="flex justify-between items-center py-6 px-8 bg-red-500 rounded-xl mt-3">
-        <h1 className="text-2xl font-bold">AakashAp</h1>
-        <ul className="flex gap-8 hidden md:flex">
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Projects
-          </motion.li>
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            About
-          </motion.li>
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Contact
-          </motion.li>
-        </ul>
-        {/* Mobile Menu (Hamburger icon) */}
-        <ul className="flex gap-8 md:hidden">
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Projects
-          </motion.li>
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            About
-          </motion.li>
-          <motion.li
-            className="cursor-pointer"
-            whileHover={{ scale: 1.1, y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Contact
-          </motion.li>
-        </ul>
-      </nav>
-
-      <main className="flex flex-col-reverse md:flex-row items-center justify-between px-8 py-20 space-y-8 md:space-y-0">
-        <motion.div
-          className="space-y-6 max-w-2xl"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.3 }}
-        >
-          <span className="bg-red-100 px-4 py-2 rounded-full text-red-500">
-            Welcome to my portfolio
-          </span>
-          <motion.h2
-            className="text-4xl md:text-6xl font-bold leading-tight text-red-500"
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 100 }}
-          >
-            Creative Full-Stack Developer
-          </motion.h2>
-          <motion.p
-            className="text-lg md:text-xl text-red-500"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-          >
-            Transforming ideas into elegant, responsive, and user-friendly web
-            applications. Specialized in React, Node.js, and modern web
-            technologies.
-          </motion.p>
-          <div className="flex gap-4 pt-4">
-            <motion.button
-              className="bg-red-500 text-white px-8 py-3 rounded-lg hover:bg-red-900 transform hover:scale-105 transition-all"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              View Projects
-            </motion.button>
-            <motion.button
-              className="border-2 border-red-500 text-red-500 px-8 py-3 rounded-lg hover:bg-red-50 transform hover:scale-105 transition-all"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-              Contact Me
-            </motion.button>
+    <div className="overflow-hidden bg-black text-green-400 font-mono min-h-screen flex justify-center items-center">
+      <div className="w-full max-w-2xl border border-green-500 rounded-lg shadow-lg">
+        {/* Terminal Header */}
+        <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500">
+          <div className="flex gap-2">
+            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
           </div>
-          <div className="flex gap-6 pt-8">
-            <motion.i
-              className="fa-brands fa-github text-2xl cursor-pointer text-red-500 hover:text-red-600"
-              whileHover={{ scale: 1.2 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            ></motion.i>
-            <motion.i
-              className="fa-brands fa-linkedin text-2xl cursor-pointer text-red-500 hover:text-red-600"
-              whileHover={{ scale: 1.2 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            ></motion.i>
-            <motion.i
-              className="fa-brands fa-twitter text-2xl cursor-pointer text-red-500 hover:text-red-600"
-              whileHover={{ scale: 1.2 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            ></motion.i>
-          </div>
-        </motion.div>
+          <p className="text-gray-400 text-sm">~/Portfolio/Terminal</p>
+        </div>
 
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.7 }}
-        >
-          <motion.img
-            src={path.profile}
-            alt="Developer"
-            className="w-[300px] h-[500px] object-cover rounded shadow-2xl transition-all relative z-10 "
-            style={{
-              maskImage: "linear-gradient(to center, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0) 80%)",
-              WebkitMaskImage: "linear-gradient(to center, rgba(0, 0, 0, 0.7) 20%, rgba(0, 0, 0, 0) 80%)"
-            }}
+        {/* Terminal Body */}
+        <div className="p-6 h-96 overflow-y-auto">
+          <Type />
+
+          <motion.hr
+            className="my-4 border-green-500 opacity-50"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 1 }}
           />
-        </motion.div>
 
-      </main>
+          {/* Output Section */}
+          <div className="mt-4 text-lg">
+            {output.map((item, index) => (
+              <div key={index}>
+                <p>
+                  <span className="text-green-500">>_ </span>
+                  {item.command}
+                </p>
+                <div className="text-white">{item.response}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Input Field */}
+          <div className="mt-4 flex items-center">
+            <span className="text-green-500 text-lg">>_</span>
+            <input
+              type="text"
+              value={command}
+              onChange={(e) => setCommand(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="bg-transparent border-none outline-none text-white ml-2 w-full text-lg"
+              autoFocus
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
