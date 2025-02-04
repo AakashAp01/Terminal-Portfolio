@@ -22,8 +22,8 @@ function Hero() {
     switch (cmd.toLowerCase()) {
       case "about":
         newOutput = (
-          <div className="flex flex-col md:flex-row items-center p-6 rounded-lg shadow-lg max-w-3xl mx-auto text-white">
-
+          <div className="flex flex-col md:flex-row  p-6 rounded-lg shadow-lg max-w-3xl mx-auto text-white">
+        
             {/* Left Side - About Text */}
             <div className="flex-1 text-left space-y-4">
               <h2 className="text-green-400 text-2xl font-bold flex items-center">
@@ -35,25 +35,25 @@ function Hero() {
                 <strong> MERN Stack, Laravel, PHP, JavaScript, and CSS.</strong>
                 I specialize in crafting dynamic, scalable, and high-performance web applications that provide seamless user experiences. 🚀
               </p>
-
+        
               <p className="text-lg leading-relaxed">
                 With a keen eye for design and performance optimization, I build robust
                 <span className="text-green-400"> front-end interfaces</span> using React, Tailwind, and Bootstrap.
                 On the <span className="text-green-400"> backend</span>, I develop secure and efficient APIs with Node.js, Express, Laravel, and PHP,
                 ensuring smooth data management using MongoDB and MySQL.
               </p>
-
+        
               <p className="text-lg leading-relaxed">
                 Beyond coding, I am passionate about problem-solving, exploring new technologies, and staying updated with the latest industry trends.
                 I thrive in <span className="text-green-400">collaborative environments</span> and enjoy working with teams to bring innovative ideas to life.
                 Whether it’s a startup project, an enterprise-level application, or a personal portfolio, I am always eager to create meaningful digital solutions.
               </p>
-
+        
               <p className="text-lg leading-relaxed">
                 When I’m not coding, I enjoy contributing to open-source projects, writing tech blogs, and mentoring aspiring developers.
                 Let's connect and build something amazing together! ✨
               </p>
-
+        
               <div className="text-green-300 space-y-2">
                 <p>
                   <i className="fa-brands fa-react text-green-400 mr-2"></i>
@@ -73,12 +73,12 @@ function Hero() {
                 </p>
               </div>
             </div>
-
+        
             {/* Right Side - Rectangular Profile Image with Glow */}
-            <div className="relative ml-6 w-40 h-52 md:w-48 md:h-60">
+            <div className="relative mt-6 md:mt-0 md:ml-6 w-40 h-52 md:w-48 md:h-60">
               {/* Glowing Background Effect */}
               <div className="absolute inset-0 w-full h-full bg-green-500 blur-xl opacity-30 rounded-lg"></div>
-
+        
               {/* Profile Image with Thin Border and Glow */}
               <div className="relative w-full h-full border border-green-400 rounded-lg shadow-[0px_0px_15px_rgba(34,197,94,0.6)]">
                 <img
@@ -88,9 +88,10 @@ function Hero() {
                 />
               </div>
             </div>
-
+        
           </div>
         );
+        
 
         break;
 
