@@ -9,7 +9,7 @@ function Type() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <span className="text-green-500">$.</span>
+      <span className="text-green-500">$_</span>
       <span className="text-white">
         <Typewriter
           words={[
