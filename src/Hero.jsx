@@ -3,7 +3,7 @@ import Type from "./Type";
 import { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { div } from "framer-motion/client";
-
+import profile from "./assets/profile.jpg"
 function Hero() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState([]);
@@ -32,7 +32,7 @@ function Hero() {
               {/* Profile Image with Thin Border and Glow */}
               <div className="relative w-full h-full border border-green-400 rounded-lg shadow-[0px_0px_15px_rgba(34,197,94,0.6)]">
                 <img
-                  src="./src/profile.jpg"
+                  src={profile}
                   alt="Profile"
                   className="w-full h-full object-cover rounded-lg shadow-lg"
                 />
@@ -69,24 +69,6 @@ function Hero() {
                 Let's connect and build something amazing together! ✨
               </p>
 
-              <div className="text-green-300 space-y-2">
-                <p>
-                  <i className="fa-brands fa-react text-green-400 mr-2"></i>
-                  <strong>Frontend:</strong> React, Tailwind, Bootstrap
-                </p>
-                <p>
-                  <i className="fa-solid fa-server text-green-400 mr-2"></i>
-                  <strong>Backend:</strong> Node.js, Express, Laravel, PHP
-                </p>
-                <p>
-                  <i className="fa-solid fa-database text-green-400 mr-2"></i>
-                  <strong>Database:</strong> MongoDB, MySQL
-                </p>
-                <p>
-                  <i className="fa-solid fa-toolbox text-green-400 mr-2"></i>
-                  <strong>Tools:</strong> Postman, Git, GitHub, CPanel, Hostinger
-                </p>
-              </div>
             </div>
 
           </div>
@@ -128,6 +110,76 @@ function Hero() {
           </div>
         );
         break;
+        case "tech-stack":
+          newOutput = (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 text-white">
+              {/* Frontend Technologies */}
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-react text-blue-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">React</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" className="w-10 h-10 mb-2" alt="Tailwind CSS" />
+                <p className="text-green-400 font-semibold">Tailwind CSS</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-bootstrap text-purple-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">Bootstrap</p>
+              </div>
+        
+              {/* Backend Technologies */}
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-node text-green-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">Node.js</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" className="w-10 h-10 mb-2" alt="Express.js" />
+                <p className="text-green-400 font-semibold">Express.js</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-php text-indigo-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">PHP</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" className="w-10 h-10 mb-2" alt="Laravel" />
+                <p className="text-green-400 font-semibold">Laravel</p>
+              </div>
+        
+              {/* Databases */}
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-solid fa-database text-red-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">MongoDB</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-solid fa-database text-blue-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">MySQL</p>
+              </div>
+        
+              {/* Tools */}
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-solid fa-toolbox text-yellow-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">Postman</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-git text-orange-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">Git</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-brands fa-github text-white text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">GitHub</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-solid fa-server text-purple-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">CPanel</p>
+              </div>
+              <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                <i className="fa-solid fa-cloud text-blue-400 text-4xl mb-2"></i>
+                <p className="text-green-400 font-semibold">Hostinger</p>
+              </div>
+            </div>
+          );
+        
+        break;
       case "projects":
         newOutput = "Check out my GitHub: github.com/aakashap";
         break;
@@ -137,7 +189,7 @@ function Hero() {
             <p className="text-white">Click the link below to download the resume:</p>
             {/* Resume Download Link */}
             <motion.a
-              href="./src/Aakash_Prajapati_Resume.pdf" 
+              href="./src/Aakash_Prajapati_Resume.pdf"
               download="Aakash_Prajapati_Resume.pdf"
               className="text-green-400 hover:text-green-500 underline mt-2 inline-block"
               initial={{ opacity: 0 }}
@@ -148,7 +200,7 @@ function Hero() {
             </motion.a>
           </div>
         );
-        
+
         break;
       case "clear":
       case "cls":
@@ -183,57 +235,57 @@ function Hero() {
               <div className="w-3 h-3 bg-green-500 rounded-full" ></div>
             </div>
             <p className="text-gray-400 text-sm">~/Portfolio/AakashAp &nbsp;
-             {/* Info Icon with Tooltip */}
-              
-              <i 
+              {/* Info Icon with Tooltip */}
+
+              <i
                 className="fa-solid fa-info-circle text-green-500 cursor-pointer"
-                onClick={openModal} 
+                onClick={openModal}
               />
-              </p>
+            </p>
           </div>
           {isModalOpen && (
-           <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
-           <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-96 max-w-lg">
-             <h2 className="text-green-400 text-2xl font-semibold mb-4">Command Info</h2>
-             
-             <p className="text-white text-lg mb-4">
-               Below are the available commands and their actions:
-             </p>
-             
-             <ul className="list-disc pl-6 text-white space-y-2">
-               <li><span className="text-green-400 font-semibold">resume</span> - Download Resume</li>
-               <li><span className="text-green-400 font-semibold">contact</span> - Contact Info</li>
-               <li><span className="text-green-400 font-semibold">about</span> - About Info</li>
-               <li><span className="text-green-400 font-semibold">cls</span> or <span className="text-green-400 font-semibold">clear</span> - Clear Terminal</li>
-             </ul>
-         
-             <div className="mt-6 flex justify-end">
-               {/* Close Button */}
-               <button 
-                 onClick={closeModal} 
-                 className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-400 transition duration-200"
-               >
-                 Close
-               </button>
-             </div>
-           </div>
-         </div>
-         
+            <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
+              <div className="bg-gray-900 p-6 rounded-lg shadow-lg w-96 max-w-lg">
+                <h2 className="text-green-400 text-2xl font-semibold mb-4">Command Info</h2>
+
+                <p className="text-white text-lg mb-4">
+                  Below are the available commands and their actions:
+                </p>
+
+                <ul className="list-disc pl-6 text-white space-y-2">
+                  <li><span className="text-green-400 font-semibold">resume</span> - Download Resume</li>
+                  <li><span className="text-green-400 font-semibold">contact</span> - Contact Info</li>
+                  <li><span className="text-green-400 font-semibold">about</span> - About Info</li>
+                  <li><span className="text-green-400 font-semibold">cls</span> or <span className="text-green-400 font-semibold">clear</span> - Clear Terminal</li>
+                </ul>
+
+                <div className="mt-6 flex justify-end">
+                  {/* Close Button */}
+                  <button
+                    onClick={closeModal}
+                    className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-400 transition duration-200"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+
           )}
-  
+
           {/* Terminal Body */}
           <div
             className="p-6 h-[500px] overflow-y-auto"
           >
             <Type />
-  
+
             <motion.hr
               className="my-4 border-green-500 opacity-50"
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: 1 }}
             />
-  
+
             {/* Output Section */}
             <div className="mt-4 text-lg">
               {output.map((item, index) => (
@@ -246,7 +298,7 @@ function Hero() {
                 </div>
               ))}
             </div>
-  
+
             {/* Input Field */}
             <div className="mt-4 flex items-center">
               <span className="text-green-500 text-lg">>_</span>
@@ -262,14 +314,14 @@ function Hero() {
           </div>
         </div>
       </div>
-  
+
       {/* Made by Passion and Heart Emoji outside of terminal container */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full">
         <p className="ml-2">@powered by Passion 🔥 and ❤️</p>
       </div>
     </>
   );
-  
+
 }
 
 export default Hero;
