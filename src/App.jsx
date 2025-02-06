@@ -6,7 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import About from "./components/About";
 import TeckStack from "./components/TeckStack";
 import Resume from "./components/Resume";
-import Contact from "./components/contact";
+import Contact from "./components/Contact";
 import CmdModal from "./components/CmdModal";
 import Header from "./components/Header";
 import Projects from "./components/Projects";
