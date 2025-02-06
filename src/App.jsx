@@ -2,22 +2,49 @@ import { motion } from "framer-motion";
 import Type from "./components/Type";
 import { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import About from "./components/About";
 
+import About from "./components/About";
 import TeckStack from "./components/TeckStack";
 import Resume from "./components/Resume";
 import Contact from "./components/contact";
 import CmdModal from "./components/CmdModal";
+import Header from "./components/Header";
+import Projects from "./components/Projects";
 
 function App() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState([]);
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
-  // Handle Enter Key
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      if (command.trim() === "") return;
+
+      // Store command in history and reset index
+      setCommandHistory([command, ...commandHistory]);
+      setHistoryIndex(-1);
+
       executeCommand(command);
       setCommand("");
+    }
+    else if (e.key === "ArrowUp") {
+      // Move to previous command
+      if (historyIndex < commandHistory.length - 1) {
+        setHistoryIndex(historyIndex + 1);
+        setCommand(commandHistory[historyIndex + 1]);
+      }
+    }
+    else if (e.key === "ArrowDown") {
+      // Move to next command
+      if (historyIndex > 0) {
+        setHistoryIndex(historyIndex - 1);
+        setCommand(commandHistory[historyIndex - 1]);
+      } else {
+        setHistoryIndex(-1);
+        setCommand("");
+      }
     }
   };
 
@@ -26,30 +53,19 @@ function App() {
     let newOutput = "";
     switch (cmd.toLowerCase()) {
       case "about":
-        newOutput = (
-          <About />
-        );
+        newOutput = (<About />);
         break;
-
       case "contact":
-        newOutput = (
-          <Contact />
-        );
+        newOutput = (<Contact />);
         break;
       case "tech-stack":
-        newOutput = (
-          <TeckStack />
-        );
-
+        newOutput = (<TeckStack/>);
         break;
       case "projects":
-        newOutput = "Check out my GitHub: github.com/aakashap";
+        newOutput = (<Projects/>);
         break;
       case "resume":
-        newOutput = (
-          <Resume />
-        );
-
+        newOutput = (<Resume/>);
         break;
       case "clear":
       case "cls":
@@ -57,7 +73,7 @@ function App() {
         return;
       default:
         newOutput = (
-         <span className="text-red-400">error: {`"${cmd}"`} command not found!</span>
+          <span className="text-red-500">error: {`"${cmd}"`} command not found!</span>
         );
 
     }
@@ -75,7 +91,8 @@ function App() {
 
   return (
     <>
-      <div className="overflow-hidden bg-black text-green-400 font-mono min-h-screen flex justify-center items-center">
+      <Header />
+      <div className="overflow-hidden  text-green-400 font-mono min-h-[95%] flex items-center justify-center p-4">
         <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">
           {/* Terminal Header */}
           <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500">
@@ -87,12 +104,14 @@ function App() {
               >
                 <span className="group-hover:block text-[8px]">✖</span>
               </div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full" title="Back" onClick={() => window.history.back()}></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full" ></div>
+              <div
+                className="w-3 h-3 bg-yellow-500 rounded-full"
+                title="Back"
+                onClick={() => window.history.back()}
+              ></div>
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             </div>
-            <p className="text-gray-400 text-sm">~/Portfolio/AakashAp &nbsp;
-              {/* Info Icon with Tooltip */}
-
+            <p className="text-gray-400 text-sm truncate">~/Portfolio/AakashAp &nbsp;
               <i
                 className="fa-solid fa-info-circle text-green-500 cursor-pointer"
                 onClick={openModal}
@@ -100,11 +119,9 @@ function App() {
             </p>
             <CmdModal isModalOpen={isModalOpen} closeModal={closeModal} />
           </div>
-         
+
           {/* Terminal Body */}
-          <div
-            className="p-6 h-[500px] overflow-y-auto"
-          >
+          <div className="p-4 md:p-6 h-[500px] max-h-[80vh] overflow-y-auto">
             <Type />
 
             <motion.hr
@@ -115,14 +132,14 @@ function App() {
             />
 
             {/* Output Section */}
-            <div className="mt-4 text-lg">
+            <div className="mt-4 text-lg space-y-2">
               {output.map((item, index) => (
                 <div key={index}>
                   <p>
-                    <span className="text-green-500">>_ </span>
+                    <span className="text-green-500">>_</span>
                     {item.command}
                   </p>
-                  <div className="text-white">{item.response}</div>
+                  <div className="text-white break-words">{item.response}</div>
                 </div>
               ))}
             </div>
@@ -143,11 +160,13 @@ function App() {
         </div>
       </div>
 
-      {/* Made by Passion and Heart Emoji outside of terminal container */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full">
-        <p className="ml-2">@powered by Passion 🔥 and ❤️</p>
+      {/* Footer - Made with Passion */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full text-center px-4">
+        <p className="ml-2">©copyright {new Date().getFullYear()} AakashAP | Powered by Passion 🔥 and ❤️</p>
       </div>
+
     </>
+
   );
 
 }
