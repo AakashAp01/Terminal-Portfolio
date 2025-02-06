@@ -3,19 +3,18 @@
 /* Custom Green Scrollbar */
 ::-webkit-scrollbar {
     width: 5px;
-  }
-  
-  ::-webkit-scrollbar-track {
+}
+
+::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 8px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: #10b943; /* Tailwind green-500 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #10b943;
     border-radius: 8px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #059669; /* Tailwind green-600 */
-  }
-  
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #10b943;
+}

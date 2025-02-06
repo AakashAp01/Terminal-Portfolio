@@ -59,13 +59,13 @@ function App() {
         newOutput = (<Contact />);
         break;
       case "tech-stack":
-        newOutput = (<TeckStack/>);
+        newOutput = (<TeckStack />);
         break;
       case "projects":
-        newOutput = (<Projects/>);
+        newOutput = (<Projects />);
         break;
       case "resume":
-        newOutput = (<Resume/>);
+        newOutput = (<Resume />);
         break;
       case "clear":
       case "cls":
@@ -111,9 +111,10 @@ function App() {
               ></div>
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             </div>
-            <p className="text-gray-400 text-sm truncate">~/Portfolio/AakashAp &nbsp;
+            <p className="text-gray-400 text-sm truncate" >~/Portfolio/AakashAp &nbsp;
               <i
                 className="fa-solid fa-info-circle text-green-500 cursor-pointer"
+                title="Command Info"
                 onClick={openModal}
               />
             </p>
@@ -162,7 +163,18 @@ function App() {
 
       {/* Footer - Made with Passion */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full text-center px-4">
-        <p className="ml-2">©copyright {new Date().getFullYear()} AakashAP | Powered by Passion 🔥 and ❤️</p>
+        <p className="ml-2">
+          ©copyright {new Date().getFullYear()}
+          <a
+            href="https://github.com/aakashap01"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-green-400 hover:underline ml-1"
+          >
+            AakashAp 
+          </a>&nbsp;
+          |&nbsp; Powered by Passion 🔥 and ❤️
+        </p>
       </div>
 
     </>

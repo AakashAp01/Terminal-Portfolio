@@ -3,6 +3,24 @@ export default function TeckStack() {
     return (
         <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 text-white">
+                {/* HTML */}
+                <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                    <i className="fa-brands fa-html5 text-orange-500 text-4xl mb-2"></i>
+                    <p className="text-green-400 font-semibold">HTML5</p>
+                </div>
+
+                {/* CSS */}
+                <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                    <i className="fa-brands fa-css3-alt text-blue-500 text-4xl mb-2"></i>
+                    <p className="text-green-400 font-semibold">CSS3</p>
+                </div>
+
+                {/* JavaScript */}
+                <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
+                    <i className="fa-brands fa-js-square text-yellow-400 text-4xl mb-2"></i>
+                    <p className="text-green-400 font-semibold">JavaScript</p>
+                </div>
+
                 {/* Frontend Technologies */}
                 <div className="border border-green-500 p-4 rounded-lg shadow-lg flex flex-col items-center bg-transparent">
                     <i className="fa-brands fa-react text-blue-400 text-4xl mb-2"></i>
