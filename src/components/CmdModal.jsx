@@ -26,6 +26,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
               <li><span className="text-green-400 font-semibold">about</span> - About Info</li>
               <li><span className="text-green-400 font-semibold">cls</span> or <span className="text-green-400 font-semibold">clear</span> - Clear Terminal</li>
               <li><span className="text-green-400 font-semibold">tech-stack</span> - Show Tech Stack</li>
+              <li><span className="text-green-400 font-semibold">github</span> - GitHub Stats</li>
               <li><span className="text-green-400 font-semibold">projects</span> - Show all project wiht git-hub link</li>
               <li><span className="text-green-400 font-semibold">↑ (Up Arrow)</span> - Show Previous Command</li>
               <li><span className="text-green-400 font-semibold">↓ (Down Arrow)</span> - Show Next Command</li>

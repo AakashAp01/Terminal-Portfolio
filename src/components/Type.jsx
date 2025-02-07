@@ -4,7 +4,7 @@ import { Typewriter } from "react-simple-typewriter";
 function Type() {
   return (
     <motion.div
-      className="text-xl md:text-3xl font-mono"
+      className="text-xl md:text-2xl font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}

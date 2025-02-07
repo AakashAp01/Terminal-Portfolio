@@ -13,7 +13,7 @@ export default function Header() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        <i className="fa-brands fa-github"></i> Star on GitHub
+        <i className="fa-brands fa-github"></i> Star on GitHub ⭐
       </motion.a>
     </header>
   );

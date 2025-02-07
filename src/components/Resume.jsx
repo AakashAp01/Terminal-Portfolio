@@ -19,7 +19,7 @@ export default function Resume() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        View Resume
+                        View
                     </motion.a>
 
                     <motion.a
@@ -30,7 +30,7 @@ export default function Resume() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        Download Resume
+                        Download
                     </motion.a>
                 </div>
             </div>

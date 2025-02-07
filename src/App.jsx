@@ -10,6 +10,7 @@ import Contact from "./components/Contact";
 import CmdModal from "./components/CmdModal";
 import Header from "./components/Header";
 import Projects from "./components/Projects";
+import GitHubStats from "./components/GitHubStats";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -54,6 +55,9 @@ function App() {
     switch (cmd.toLowerCase()) {
       case "about":
         newOutput = (<About />);
+        break;
+      case "github":
+        newOutput = (<GitHubStats />);
         break;
       case "contact":
         newOutput = (<Contact />);
@@ -144,6 +148,7 @@ function App() {
                 </div>
               ))}
             </div>
+
 
             {/* Input Field */}
             <div className="mt-4 flex items-center">

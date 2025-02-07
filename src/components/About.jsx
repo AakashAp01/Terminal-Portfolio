@@ -21,11 +21,11 @@ export default function About() {
 
                 {/* Right Side - About Text */}
                 <div className="flex-1 text-left space-y-4">
-                    <h2 className="text-green-400 text-2xl font-bold flex items-center">
-                        <i className="fa-solid fa-user text-green-400 mr-2"></i> About Me
+                    <h2 className="text-green-500 text-2xl font-bold flex items-center">
+                        <i className="fa-solid fa-user text-green-500 mr-2"></i> About Me
                     </h2>
                     <p className="text-lg leading-relaxed">
-                        I am a passionate Fullstack Web Developer currently working at Fablead Developers Technolabs. My expertise lies in developing scalable web applications using Laravel with a strong focus on RESTful APIs, authentication mechanisms, and third-party integrations. I have experience working with MySQL databases, optimizing queries, and ensuring smooth deployments on production servers.
+                        Hey, I'm<span className="text-green-500" > Aakash Prajapati </span>  a passionate Fullstack Web Developer currently working at Fablead Developers Technolabs. My expertise lies in developing scalable web applications using Laravel with a strong focus on RESTful APIs, authentication mechanisms, and third-party integrations. I have experience working with MySQL databases, optimizing queries, and ensuring smooth deployments on production servers.
                     </p>
                     <p className="text-lg leading-relaxed">
                         In addition to my professional experience, I am a self-taught developer in React.js, Node.js, Express.js, and Laravel Livewire, continuously expanding my skill set to stay updated with modern web technologies. I have learned and practiced them independently to enhance my development capabilities.
