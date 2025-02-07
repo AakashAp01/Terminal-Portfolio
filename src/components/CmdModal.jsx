@@ -26,7 +26,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
   return (
     <>
       {isModalOpen && (
-        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0 bg-black  bg-opacity-50 flex justify-center items-center z-50 p-4">
           <motion.div
             className="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-xl"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -40,6 +40,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
             <p className="text-white text-sm sm:text-lg mb-4">
               Below are the available commands and their actions:
             </p>
+            <hr className="my-4 border-green-500 opacity-50"/>
 
             <ul className="list-none max-h-[40vh] text-white space-y-2 overflow-y-auto">
               {commands.map((cmd, index) => (

@@ -144,7 +144,7 @@ function App() {
               className="my-4 border-green-500 opacity-50"
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.5 }}
             />
 
             {/* Output Section */}
