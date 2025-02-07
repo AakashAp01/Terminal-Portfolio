@@ -11,6 +11,8 @@ import CmdModal from "./components/CmdModal";
 import Header from "./components/Header";
 import Projects from "./components/Projects";
 import GitHubStats from "./components/GitHubStats";
+import MotivationalQuote from "./components/MotivationalQuote";
+import LaughComponent from "./components/Laugh";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -62,7 +64,7 @@ function App() {
       case "contact":
         newOutput = (<Contact />);
         break;
-      case "tech-stack":
+      case "tech stack":
         newOutput = (<TeckStack />);
         break;
       case "projects":
@@ -70,6 +72,15 @@ function App() {
         break;
       case "resume":
         newOutput = (<Resume />);
+        break;
+      case "help":
+        newOutput = (openModal());
+        break;
+      case "quote":
+        newOutput = (<MotivationalQuote/>);
+        break;
+      case "make me laugh":
+        newOutput = (<LaughComponent/>);
         break;
       case "clear":
       case "cls":
@@ -141,7 +152,7 @@ function App() {
               {output.map((item, index) => (
                 <div key={index}>
                   <p>
-                    <span className="text-green-500">>_</span>
+                    <span className="text-green-500">>_ </span>
                     {item.command}
                   </p>
                   <div className="text-white break-words">{item.response}</div>
@@ -152,7 +163,7 @@ function App() {
 
             {/* Input Field */}
             <div className="mt-4 flex items-center">
-              <span className="text-green-500 text-lg">>_</span>
+              <span className="text-green-500 text-lg">>_ </span>
               <input
                 type="text"
                 value={command}
