@@ -37,10 +37,6 @@
 
 ---
 
-## 📜 License  
-🔖 This project is licensed under the **MIT License**.  
----
-
 ## ⚖️ Copyright & Usage Guidelines  
 © 2025 **Aakash Prajapati** | All Rights Reserved  
 
