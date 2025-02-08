@@ -14,6 +14,7 @@ import GitHubStats from "./components/GitHubStats";
 import MotivationalQuote from "./components/MotivationalQuote";
 import LaughComponent from "./components/Laugh";
 import MusicPlayer from "./components/MusicPlayer";
+import Chocolate from "./assets/chocolate.gif";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -78,13 +79,32 @@ function App() {
         newOutput = (openModal());
         break;
       case "quote":
-        newOutput = (<MotivationalQuote/>);
+        newOutput = (<MotivationalQuote />);
         break;
       case "make me laugh":
-        newOutput = (<LaughComponent/>);
+        newOutput = (<LaughComponent />);
         break;
       case "music":
-        newOutput = (<MusicPlayer/>);
+        newOutput = (<MusicPlayer />);
+        break;
+      case "gimme chocolate":
+        newOutput = (<div>
+          <img src={Chocolate} alt="" />
+        </div>);
+        break;
+      case "popu":
+        newOutput = (
+          <div className="flex">
+            <motion.div
+              className="text-6xl"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: [0.8, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+            >
+              🐼
+            </motion.div>
+          </div>
+        );
         break;
       case "clear":
       case "cls":
@@ -191,14 +211,12 @@ function App() {
             rel="noopener noreferrer"
             className="text-green-400 hover:underline ml-1"
           >
-            AakashAp 
+            AakashAp
           </a>&nbsp;
           |&nbsp; Powered by Passion ⚡ and ❤️
         </p>
       </div>
-
     </>
-
   );
 
 }
