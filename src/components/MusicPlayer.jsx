@@ -15,8 +15,7 @@ const MusicPlayer = () => {
     audioRef.current.play();
     setIsPlaying(true);
   };
-
-  // Function to pause music
+  
   const pauseMusic = () => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -24,19 +23,17 @@ const MusicPlayer = () => {
     }
   };
 
-  // Toggle play/pause
   const toggleMusic = () => {
     isPlaying ? pauseMusic() : playMusic();
   };
 
-  // Auto-play music when component mounts
   useEffect(() => {
-    playMusic(); // Start playing automatically
+    playMusic(); 
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current = null; // Cleanup on unmount
+        audioRef.current = null; 
       }
     };
   }, []);
@@ -46,7 +43,7 @@ const MusicPlayer = () => {
       <div className="relative">
         <img src={musicGif} alt="Music Playing" className="w-32" />
         <motion.button
-          className="absolute inset-0 m-auto w-10 h-10 flex items-center justify-center bg-black bg-opacity-60 text-white rounded-full z-10"
+          className="absolute inset-0 m-auto w-10 h-10 flex items-center justify-center bg-black bg-opacity-60 rounded-full z-10"
           whileHover={{ scale: 1.2 }}
           onClick={toggleMusic}
         >
