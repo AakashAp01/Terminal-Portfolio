@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import Type from "./components/Type";
 import { useState } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from '@vercel/analytics/react';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import About from "./components/About";
@@ -130,6 +132,8 @@ function App() {
 
   return (
     <>
+       <SpeedInsights/>
+        <Analytics />
       <Header />
       <div className="overflow-hidden  text-green-400 font-mono min-h-[95%] flex items-center justify-center p-4">
         <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">
