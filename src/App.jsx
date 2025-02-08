@@ -13,6 +13,7 @@ import Projects from "./components/Projects";
 import GitHubStats from "./components/GitHubStats";
 import MotivationalQuote from "./components/MotivationalQuote";
 import LaughComponent from "./components/Laugh";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -81,6 +82,9 @@ function App() {
         break;
       case "make me laugh":
         newOutput = (<LaughComponent/>);
+        break;
+      case "music":
+        newOutput = (<MusicPlayer/>);
         break;
       case "clear":
       case "cls":
@@ -180,7 +184,7 @@ function App() {
       {/* Footer - Made with Passion */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full text-center px-4">
         <p className="ml-2">
-          ©copyright {new Date().getFullYear()}
+          <span className="text-lg" >©</span>Copyright {new Date().getFullYear()}
           <a
             href="https://github.com/aakashap01"
             target="_blank"
@@ -189,7 +193,7 @@ function App() {
           >
             AakashAp 
           </a>&nbsp;
-          |&nbsp; Powered by Passion 🔥 and ❤️
+          |&nbsp; Powered by Passion ⚡ and ❤️
         </p>
       </div>
 

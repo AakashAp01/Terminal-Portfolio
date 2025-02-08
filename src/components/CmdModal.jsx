@@ -9,12 +9,13 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "contact", description: "Contact Info" },
     { name: "about", description: "About Info" },
     { name: "cls", description: "Clear Terminal" },
-    { name: "tech-stack", description: "Show Tech Stack" },
+    { name: "tech stack", description: "Show Tech Stack" },
     { name: "github", description: "GitHub Stats" },
     { name: "help", description: "Get command information" },
     { name: "projects", description: "Show all projects with GitHub link" },
     { name: "quote", description: "Generates motivational quotes" },
     { name: "make me laugh", description: "Get funny jokes" },
+    { name: "music", description: "Play cold background music" },
   ];
 
   const copyToClipboard = (text) => {
