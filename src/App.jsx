@@ -92,6 +92,7 @@ function App() {
       case "gimme chocolate":
         newOutput = (<div>
           <img src={Chocolate} alt="" />
+          <h1 className="text-lg">Happy Chocolate Day 😋💖</h1>
         </div>);
         break;
       case "popu":
