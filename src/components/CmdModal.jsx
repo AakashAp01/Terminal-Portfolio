@@ -8,7 +8,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "resume", description: "Download Resume" },
     { name: "contact", description: "Contact Info" },
     { name: "about", description: "About Info" },
-    { name: "cls", description: "Clear Terminal" },
+    { name: "clear", description: "Clear Terminal" },
     { name: "tech stack", description: "Show Tech Stack" },
     { name: "github", description: "GitHub Stats" },
     { name: "help", description: "Get command information" },
@@ -17,6 +17,8 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "make me laugh", description: "Get funny jokes" },
     { name: "play music", description: "Play cold background music" },
     { name: "animate:{your-text}", description: "Animated text effect in a colorful, drawn style." },
+    { name: "start type sound", description: "Start typing sound" },
+    { name: "stop type sound", description: "Start typing sound" },
   ];
 
   const copyToClipboard = (text) => {
