@@ -1,52 +1,83 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Projects() {
-  // Sample project data
+  const [expanded, setExpanded] = useState(null);
+
   const projects = [
     {
       name: "Portfolio Terminal",
       description: "A terminal-style interactive portfolio.",
-      github: "https://github.com/aakashap01/portfolio-terminal",
+      github: "https://github.com/AakashAp01/React-Portfolio",
     },
     {
-      name: "E-Commerce API",
-      description: "RESTful API for e-commerce with authentication.",
-      github: "https://github.com/aakashap01/ecommerce-api",
+      name: "Personal Portfolio with Admin Panel",
+      description: "A personal portfolio with an admin panel built in Laravel.",
+      github: "https://github.com/AakashAp01/Laravel-Portfolio-With-Admin-Panel",
     },
     {
-      name: "Blog CMS",
-      description: "A full-stack content management system for blogs.",
-      github: "https://github.com/aakashap01/blog-cms",
+      name: "Laravel Real-Time Chat App",
+      description: "A Laravel real-time chat app using Reverb and React.",
+      github: "https://github.com/AakashAp01/Laravel-Real-Time-Chat-App",
     },
     {
-      name: "Task Manager",
-      description: "A simple task manager app with CRUD operations.",
-      github: "https://github.com/aakashap01/task-manager",
+      name: "React Password Generator",
+      description: "A collection of basic React projects like a password generator, BG changer, and currency converter.",
+      github: "https://github.com/AakashAp01/Basic-React",
     },
+    {
+      name: "React Currency Converter",
+      description: "A simple React-based currency converter.",
+      github: "https://github.com/AakashAp01/Basic-React",
+    },
+    {
+      name: "Laravel Livewire E-Com",
+      description: "A fully functional e-commerce platform built using Laravel Livewire. Features include product management, cart functionality, user authentication, and real-time updates.",
+      github: "https://github.com/AakashAp01/Laravel-Livewire",
+    }
   ];
 
+  const toggleExpand = (index) => {
+    setExpanded(expanded === index ? null : index);
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-white">
-      {projects.map((project, index) => (
-        <motion.div
-          key={index}
-          className=" p-4 rounded-lg m-2 shadow-lg border border-green-500 flex flex-col items-start space-y-3"
-          whileHover={{ scale: 1.01 }}
-          transition={{ duration: 0.3 }}
-        >
-          <i className="fa-solid fa-code text-green-400 text-2xl"></i>
-          <h3 className="text-green-400 text-xl font-semibold">{project.name}</h3>
-          <p className="text-gray-300">{project.description}</p>
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-green-400 hover:underline flex items-center gap-2"
+    <div className="max-w-5xl mx-auto p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {projects.map((project, index) => (
+          <motion.div
+            key={index}
+            className="p-5 rounded-xl shadow-md border border-green-500 transition-all duration-300 hover:shadow-lg hover:border-green-400 hover:scale-105"
           >
-            <i className="fa-brands fa-github"></i> View on GitHub
-          </a>
-        </motion.div>
-      ))}
+            <div 
+              className="flex items-center justify-between cursor-pointer"
+              onClick={() => toggleExpand(index)}
+            >
+              <div className="flex items-center gap-3">
+                <i className="fa-solid fa-code text-green-400 text-2xl"></i>
+                <h3 className="text-lg font-semibold text-white">{project.name}</h3>
+              </div>
+              <i className={`fa-solid ${expanded === index ? "fa-chevron-up" : "fa-chevron-down"} text-green-400`}></i>
+            </div>
+
+            <motion.div
+              initial={false}
+              animate={{ height: expanded === index ? "auto" : 0, opacity: expanded === index ? 1 : 0 }}
+              className="overflow-hidden"
+            >
+              <p className="text-gray-300 text-sm mt-3">{project.description}</p>
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-400 hover:underline flex items-center gap-2 mt-2"
+              >
+                <i className="fa-brands fa-github"></i> View on GitHub
+              </a>
+            </motion.div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }

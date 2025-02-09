@@ -16,8 +16,8 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "quote", description: "Generates motivational quotes" },
     { name: "make me laugh", description: "Get funny jokes" },
     { name: "play music", description: "Play cold background music" },
-    { name: "start type sound", description: "Start typing sound" },
-    { name: "stop type sound", description: "Start typing sound" },
+    { name: "on typing sound", description: "Typing sound enable" },
+    { name: "off typing sound", description: "Typing sound disable" },
     { name: "animate:{your-text}", description: "Animated text effect in a colorful, drawn style." },
   ];
 

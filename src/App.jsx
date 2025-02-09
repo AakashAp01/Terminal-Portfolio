@@ -68,10 +68,10 @@ function App() {
 
     let newOutput = "";
 
-    if (cmd.toLowerCase() === "start type sound") {
+    if (cmd.toLowerCase() === "on typing sound") {
       setTypingSoundEnabled(true);
       newOutput = <span className="text-green-500">Typing sound enabled! 🔊</span>;
-    } else if (cmd.toLowerCase() === "stop type sound") {
+    } else if (cmd.toLowerCase() === "off typing sound") {
       setTypingSoundEnabled(false);
       Tmusic.pause();
       Tmusic.currentTime = 0;
@@ -114,28 +114,6 @@ function App() {
           break;
         case "play music":
           newOutput = <MusicPlayer />;
-          break;
-        case "gimme chocolate":
-          newOutput = (
-            <div className="text-center">
-              <img src={Chocolate} alt="Chocolate" className="mx-auto w-32 h-32" />
-              <h1 className="text-lg mt-2">Happy Chocolate Day 😋💖</h1>
-            </div>
-          );
-          break;
-        case "popu":
-          newOutput = (
-            <div className="flex justify-center">
-              <motion.div
-                className="text-6xl"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: [0.8, 1.1, 1] }}
-                transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-              >
-                🐼
-              </motion.div>
-            </div>
-          );
           break;
         case "clear":
         case "cls":
