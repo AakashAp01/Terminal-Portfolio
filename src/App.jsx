@@ -25,34 +25,34 @@ function App() {
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
-  const Tmusic =  new Audio(TypeMusic);
+  const Tmusic = new Audio(TypeMusic);
+  const [typingSoundEnabled, setTypingSoundEnabled] = useState(false);
+
   const handleKeyDown = (e) => {
-    if (e.key.length === 1 || e.key === "Backspace") {
+    if (typingSoundEnabled && (e.key.length === 1 || e.key === "Backspace")) {
       if (Tmusic.paused) {
-        Tmusic.currentTime = 0; 
-        Tmusic.play().catch(() => {});
+        Tmusic.currentTime = 0;
+        Tmusic.play().catch(() => { });
       }
     }
-  
+
     if (e.key === "Enter") {
       if (command.trim() === "") return;
-  
+
       setCommandHistory([command, ...commandHistory]);
       setHistoryIndex(-1);
       executeCommand(command);
       setCommand("");
-  
+
       // Stop sound after pressing Enter
       Tmusic.pause();
       Tmusic.currentTime = 0;
-    } 
-    else if (e.key === "ArrowUp") {
+    } else if (e.key === "ArrowUp") {
       if (historyIndex < commandHistory.length - 1) {
         setHistoryIndex(historyIndex + 1);
         setCommand(commandHistory[historyIndex + 1]);
       }
-    } 
-    else if (e.key === "ArrowDown") {
+    } else if (e.key === "ArrowDown") {
       if (historyIndex > 0) {
         setHistoryIndex(historyIndex - 1);
         setCommand(commandHistory[historyIndex - 1]);
@@ -65,10 +65,18 @@ function App() {
 
   const executeCommand = (cmd) => {
     if (!cmd.trim()) return;
-  
+
     let newOutput = "";
-  
-    if (cmd.startsWith("animate:")) {
+
+    if (cmd.toLowerCase() === "start type sound") {
+      setTypingSoundEnabled(true);
+      newOutput = <span className="text-green-500">Typing sound enabled! 🔊</span>;
+    } else if (cmd.toLowerCase() === "stop type sound") {
+      setTypingSoundEnabled(false);
+      Tmusic.pause();
+      Tmusic.currentTime = 0;
+      newOutput = <span className="text-red-500">Typing sound disabled! 🔇</span>;
+    } else if (cmd.startsWith("animate:")) {
       const textToWrite = cmd.split(":")[1].trim();
       if (textToWrite) {
         newOutput = <Animate text={textToWrite} />;
@@ -87,7 +95,7 @@ function App() {
           newOutput = <Contact />;
           break;
         case "tech stack":
-          newOutput = <TechStack />; 
+          newOutput = <TechStack />;
           break;
         case "projects":
           newOutput = <Projects />;
@@ -130,6 +138,7 @@ function App() {
           );
           break;
         case "clear":
+        case "cls":
           setOutput([]);
           return;
         default:
@@ -140,11 +149,11 @@ function App() {
           );
       }
     }
-  
+
     // Append new command response to output
     setOutput((prevOutput) => [...prevOutput, { command: cmd, response: newOutput }]);
   };
-  
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -202,7 +211,7 @@ function App() {
               {output.map((item, index) => (
                 <div key={index}>
                   <p>
-                    <span className="text-green-500">>_ </span>
+                    <span className="text-green-500">>_</span>
                     {item.command}
                   </p>
                   <div className="text-white break-words">{item.response}</div>
@@ -213,7 +222,7 @@ function App() {
 
             {/* Input Field */}
             <div className="mt-4 flex items-center">
-              <span className="text-green-500 text-lg">>_ </span>
+              <span className="text-green-500 text-lg">>_</span>
               <input
                 type="text"
                 value={command}
