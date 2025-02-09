@@ -15,7 +15,8 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "projects", description: "Show all projects with GitHub link" },
     { name: "quote", description: "Generates motivational quotes" },
     { name: "make me laugh", description: "Get funny jokes" },
-    { name: "music", description: "Play cold background music" },
+    { name: "play music", description: "Play cold background music" },
+    { name: "animate:{your-text}", description: "Animated text effect in a colorful, drawn style." },
   ];
 
   const copyToClipboard = (text) => {
@@ -46,7 +47,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
             <ul className="list-none max-h-[40vh] text-white space-y-2 overflow-y-auto">
               {commands.map((cmd, index) => (
                 <li key={index} className="flex justify-between mr-2 items-center text-sm sm:text-base  px-3 py-2 rounded-md">
-                  <span className="flex-1 truncate">
+                  <span className="flex-1">
                     <span className="text-green-400 font-semibold">👉 {cmd.name}</span> - {cmd.description}
                   </span>
                   <button

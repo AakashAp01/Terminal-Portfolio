@@ -6,7 +6,7 @@ import { Analytics } from '@vercel/analytics/react';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import About from "./components/About";
-import TeckStack from "./components/TeckStack";
+import TechStack from "./components/TechStack";
 import Resume from "./components/Resume";
 import Contact from "./components/Contact";
 import CmdModal from "./components/CmdModal";
@@ -17,6 +17,7 @@ import MotivationalQuote from "./components/MotivationalQuote";
 import LaughComponent from "./components/Laugh";
 import MusicPlayer from "./components/MusicPlayer";
 import Chocolate from "./assets/chocolate.gif";
+import Animate from "./components/Animate";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -29,7 +30,6 @@ function App() {
     if (e.key === "Enter") {
       if (command.trim() === "") return;
 
-      // Store command in history and reset index
       setCommandHistory([command, ...commandHistory]);
       setHistoryIndex(-1);
 
@@ -37,14 +37,14 @@ function App() {
       setCommand("");
     }
     else if (e.key === "ArrowUp") {
-      // Move to previous command
+      
       if (historyIndex < commandHistory.length - 1) {
         setHistoryIndex(historyIndex + 1);
         setCommand(commandHistory[historyIndex + 1]);
       }
     }
     else if (e.key === "ArrowDown") {
-      // Move to next command
+    
       if (historyIndex > 0) {
         setHistoryIndex(historyIndex - 1);
         setCommand(commandHistory[historyIndex - 1]);
@@ -55,72 +55,89 @@ function App() {
     }
   };
 
-  // Command Handling Logic
   const executeCommand = (cmd) => {
+    if (!cmd.trim()) return;
+  
     let newOutput = "";
-    switch (cmd.toLowerCase()) {
-      case "about":
-        newOutput = (<About />);
-        break;
-      case "github":
-        newOutput = (<GitHubStats />);
-        break;
-      case "contact":
-        newOutput = (<Contact />);
-        break;
-      case "tech stack":
-        newOutput = (<TeckStack />);
-        break;
-      case "projects":
-        newOutput = (<Projects />);
-        break;
-      case "resume":
-        newOutput = (<Resume />);
-        break;
-      case "help":
-        newOutput = (openModal());
-        break;
-      case "quote":
-        newOutput = (<MotivationalQuote />);
-        break;
-      case "make me laugh":
-        newOutput = (<LaughComponent />);
-        break;
-      case "music":
-        newOutput = (<MusicPlayer />);
-        break;
-      case "gimme chocolate":
-        newOutput = (<div>
-          <img src={Chocolate} alt="" />
-          <h1 className="text-lg">Happy Chocolate Day 😋💖</h1>
-        </div>);
-        break;
-      case "popu":
-        newOutput = (
-          <div className="flex">
-            <motion.div
-              className="text-6xl"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: [0.8, 1.1, 1] }}
-              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-            >
-              🐼
-            </motion.div>
-          </div>
-        );
-        break;
-      case "clear":
-      case "cls":
-        setOutput([]);
-        return;
-      default:
-        newOutput = (
-          <span className="text-red-500">error: {`"${cmd}"`} command not found!</span>
-        );
-
+  
+    if (cmd.startsWith("animate:")) {
+      const textToWrite = cmd.split(":")[1].trim();
+      if (textToWrite) {
+        newOutput = <Animate text={textToWrite} />;
+      } else {
+        newOutput = <span className="text-red-500">Error: No text provided after "animate:".</span>;
+      }
+    } else {
+      switch (cmd.toLowerCase()) {
+        case "about":
+          newOutput = <About />;
+          break;
+        case "github":
+          newOutput = <GitHubStats />;
+          break;
+        case "contact":
+          newOutput = <Contact />;
+          break;
+        case "tech stack":
+          newOutput = <TechStack />; 
+          break;
+        case "projects":
+          newOutput = <Projects />;
+          break;
+        case "resume":
+          newOutput = <Resume />;
+          break;
+        case "help":
+          newOutput = openModal();
+          break;
+        case "quote":
+          newOutput = <MotivationalQuote />;
+          break;
+        case "make me laugh":
+          newOutput = <LaughComponent />;
+          break;
+        case "play music":
+          newOutput = <MusicPlayer />;
+          break;
+        case "gimme chocolate":
+          newOutput = (
+            <div className="text-center">
+              <img src={Chocolate} alt="Chocolate" className="mx-auto w-32 h-32" />
+              <h1 className="text-lg mt-2">Happy Chocolate Day 😋💖</h1>
+            </div>
+          );
+          break;
+        case "popu":
+          newOutput = (
+            <div className="flex justify-center">
+              <motion.div
+                className="text-6xl"
+                initial={{ scale: 0.8 }}
+                animate={{ scale: [0.8, 1.1, 1] }}
+                transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+              >
+                🐼
+              </motion.div>
+            </div>
+          );
+          break;
+        case "clear":
+        case "cls":
+          setOutput([]); // Clears output
+          return;
+        default:
+          newOutput = (
+            <span className="text-red-500">
+              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"help"</strong> for more info.
+            </span>
+          );
+      }
     }
-    setOutput([...output, { command: cmd, response: newOutput }]);
+  
+    // Append new command response to output
+    setOutput((prevOutput) => [...prevOutput, { command: cmd, response: newOutput }]);
   };
+  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -133,8 +150,8 @@ function App() {
 
   return (
     <>
-       <SpeedInsights/>
-        <Analytics />
+      <SpeedInsights />
+      <Analytics />
       <Header />
       <div className="overflow-hidden  text-green-400 font-mono min-h-[95%] flex items-center justify-center p-4">
         <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">

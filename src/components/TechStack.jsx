@@ -1,5 +1,5 @@
 
-export default function TeckStack() {
+export default function TechStack() {
     return (
         <>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-4 text-white">
