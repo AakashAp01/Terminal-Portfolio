@@ -10,7 +10,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "about", description: "About Info" },
     { name: "clear/cls", description: "Clear Terminal" },
     { name: "tech stack", description: "Show Tech Stack" },
-    { name: "github", description: "GitHub Stats" },
+    { name: "github stats", description: "GitHub Stats" },
     { name: "help", description: "Get command information" },
     { name: "projects", description: "Show all projects with GitHub link" },
     { name: "quote", description: "Generates motivational quotes" },

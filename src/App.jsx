@@ -15,7 +15,6 @@ import GitHubStats from "./components/GitHubStats";
 import MotivationalQuote from "./components/MotivationalQuote";
 import LaughComponent from "./components/Laugh";
 import MusicPlayer from "./components/MusicPlayer";
-import Chocolate from "./assets/chocolate.gif";
 import Animate from "./components/Animate";
 import TypeMusic from "./assets/type2.wav";
 
@@ -76,7 +75,7 @@ function App() {
       Tmusic.pause();
       Tmusic.currentTime = 0;
       newOutput = <span className="text-red-500">Typing sound disabled! 🔇</span>;
-    } else if (cmd.startsWith("animate:")) {
+    } else if (cmd.toLowerCase().startsWith("animate:")) {
       const textToWrite = cmd.split(":")[1].trim();
       if (textToWrite) {
         newOutput = <Animate text={textToWrite} />;
@@ -88,7 +87,7 @@ function App() {
         case "about":
           newOutput = <About />;
           break;
-        case "github":
+        case "github stats":
           newOutput = <GitHubStats />;
           break;
         case "contact":

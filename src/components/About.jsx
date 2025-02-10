@@ -1,4 +1,4 @@
-import profile from "../assets/profile.jpg";
+import profile from "../assets/profile2.png";
 
 export default function About() {
   return (
@@ -8,13 +8,12 @@ export default function About() {
         
         <div className="relative w-32 h-52 md:w-40 md:h-52">
       
-          <div className="absolute inset-0 w-full h-full bg-green-500 blur-2xl opacity-40 rounded-lg"></div>
 
-          <div className="relative w-full h-full border-4 border-green-400 rounded-br-xs shadow-lg overflow-hidden">
+          <div className="relative w-full h-full border-4 rounded-br-xs shadow-lg overflow-hidden">
             <img
               src={profile}
               alt="Profile"
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover "
             />
           </div>
         </div>
@@ -24,7 +23,7 @@ export default function About() {
             Hey, I'm <span className="text-green-500">Aakash Prajapati</span>, a passionate Fullstack Web Developer. 
             My expertise lies in developing scalable web applications using 
             <span className="text-green-500"> Laravel</span>, with a strong focus on 
-            RESTful APIs, authentication mechanisms, and third-party integrations. 
+            RESTful APIs, authentication mechanisms, and third-party APIs integrations. 
             I have experience working with <span className="text-green-500">MySQL</span>, 
             optimizing queries, and ensuring smooth deployments on production servers.
           </p>
