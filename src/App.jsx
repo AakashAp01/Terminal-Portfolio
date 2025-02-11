@@ -84,34 +84,34 @@ function App() {
       }
     } else {
       switch (cmd.toLowerCase()) {
-        case "about":
+        case "ap about":
           newOutput = <About />;
           break;
-        case "github stats":
+        case "ap github stats":
           newOutput = <GitHubStats />;
           break;
-        case "contact":
+        case "ap --contact":
           newOutput = <Contact />;
           break;
-        case "tech stack":
+        case "ap tech stack":
           newOutput = <TechStack />;
           break;
-        case "projects":
+        case "ap --projects":
           newOutput = <Projects />;
           break;
-        case "resume":
+        case "ap resume":
           newOutput = <Resume />;
           break;
-        case "help":
+        case "ap --help":
           newOutput = openModal();
           break;
-        case "quote":
+        case "ap inspire":
           newOutput = <MotivationalQuote />;
           break;
-        case "make me laugh":
+        case "ap make me laugh":
           newOutput = <LaughComponent />;
           break;
-        case "play music":
+        case "ap --music":
           newOutput = <MusicPlayer />;
           break;
         case "clear":

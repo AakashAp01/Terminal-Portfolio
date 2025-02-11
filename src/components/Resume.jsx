@@ -5,7 +5,7 @@ import resume from "../assets/Aakash_Prajapati_Resume.pdf"
 export default function Resume() {
     return (
         <>
-            <div className="text-white">
+            <div className="text-white mt-2">
                 <p className="text-white">Click the links below to view or download the resume:</p>
 
                 <div className="mt-2 space-x-4">
