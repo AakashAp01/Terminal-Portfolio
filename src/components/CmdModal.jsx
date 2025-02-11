@@ -5,14 +5,14 @@ export default function CmdModal({ isModalOpen, closeModal }) {
   const [copiedCommand, setCopiedCommand] = useState(null);
 
   const commands = [
-    { name: "ap resume", description: "Download Resume" },
+    { name: "ap resume", description: "Download or view Resume" },
     { name: "ap --contact", description: "Contact Info" },
     { name: "ap about", description: "About Info" },
     { name: "clear / cls", description: "Clear Terminal" },
     { name: "ap tech stack", description: "Show Tech Stack" },
     { name: "ap github stats", description: "Show GitHub Stats" },
     { name: "ap --help", description: "Get command information" },
-    { name: "ap --projects", description: "Show all projects with GitHub links" },
+    { name: "ap --projects", description: "Show projects" },
     { name: "ap inspire", description: "Generate motivational quotes" },
     { name: "ap make me laugh", description: "Get funny jokes" },
     { name: "ap --music", description: "Play cold background music" },
