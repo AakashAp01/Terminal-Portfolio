@@ -121,7 +121,7 @@ function App() {
         default:
           newOutput = (
             <span className="text-red-500">
-              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"help"</strong> for more info.
+              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"ap --help"</strong> for more info.
             </span>
           );
       }
