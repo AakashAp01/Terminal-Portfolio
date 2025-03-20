@@ -17,6 +17,7 @@ import LaughComponent from "./components/Laugh";
 import MusicPlayer from "./components/MusicPlayer";
 import Animate from "./components/Animate";
 import TypeMusic from "./assets/type2.wav";
+import DevCard from "./components/DevCard";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -113,6 +114,9 @@ function App() {
           break;
         case "ap --music":
           newOutput = <MusicPlayer />;
+          break;
+        case "ap dev card":
+          newOutput = <DevCard />;
           break;
         case "clear":
         case "cls":

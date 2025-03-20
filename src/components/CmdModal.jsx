@@ -11,6 +11,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "clear / cls", description: "Clear Terminal" },
     { name: "ap tech stack", description: "Show Tech Stack" },
     { name: "ap github stats", description: "Show GitHub Stats" },
+    { name: "ap dev card", description: "Show daily.dev Stats card" },
     { name: "ap --help", description: "Get command information" },
     { name: "ap --projects", description: "Show projects" },
     { name: "ap inspire", description: "Generate motivational quotes" },
