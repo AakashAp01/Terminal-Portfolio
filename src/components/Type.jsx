@@ -1,10 +1,42 @@
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
 
+function getRandomizedWords() {
+  const words = [
+    "A Laravel Developer",
+    "A MERN Stack Developer",
+    "A Passionate Programmer",
+    "Welcome to my Portfolio!",
+    "Code. Create. Conquer.",
+    "Building Scalable Solutions.",
+    "Transforming Ideas into Reality.",
+    "Writing Clean & Efficient Code.",
+    "Solving Problems with Logic.",
+    "Innovate. Develop. Deploy.",
+    "Crafting Seamless User Experiences.",
+    "Breaking Code. Fixing Bugs.",
+    "Writing Code that Speaks.",
+    "Turning Visions into Web Apps.",
+    "Performance. Security. Scalability.",
+    "Developing with Passion & Precision.",
+    "Code is Poetry.",
+    "Debugging Like a Pro.",
+    "Always Learning, Always Growing.",
+    "Transforming Coffee into Code.",
+    "Design. Develop. Deliver.",
+  ];
+
+  // Shuffle the array randomly
+  const shuffledWords = words.sort(() => Math.random() - 0.5);
+  
+  // Ensure the first phrase is always first
+  return ["Hey, I'm Aakash Prajapati", ...shuffledWords];
+}
+
 function Type() {
   return (
     <motion.div
-      className="text-xl md:text-2xl font-mono"
+      className="text-sm md:text-xl lg:text-2xl font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -12,14 +44,8 @@ function Type() {
       <span className="text-green-500">$_</span>
       <span className="text-white">
         <Typewriter
-          words={[
-            "Hey, I'm Aakash Prajapati.",
-            "A Laravel Developer.",
-            "A MERN Stack Developer.",
-            "A Passionate Programmer.",
-            "Welcome to my Portfolio!",
-          ]}
-          loop={0} // Infinite loop
+          words={getRandomizedWords()}
+          loop={0} 
           cursor
           cursorStyle="|"
           typeSpeed={50}
