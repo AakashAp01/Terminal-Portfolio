@@ -45,14 +45,8 @@ function Type() {
       <span className="text-green-500">$_</span>
       <span className="text-white">
         <Typewriter
-          words={[
-            "Hey, I'm Aakash Prajapati.",
-            "A Laravel Developer.",
-            "A MERN Stack Developer.",
-            "A Passionate Programmer.",
-            "Welcome to my Portfolio!",
-          ]}
-          loop={0} // Infinite loop
+          words={words}
+          loop={0} 
           cursor
           cursorStyle="|"
           typeSpeed={50}
