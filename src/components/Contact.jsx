@@ -26,7 +26,6 @@ export default function Contact() {
           { href: "https://www.facebook.com/share/1HPLsmLaTn/", icon: "fa-facebook" },
           { href: "https://www.instagram.com/_aakash_ap_/", icon: "fa-instagram" },
           { href: "https://x.com/akashap01", icon: "fa-x-twitter" },
-          { href: "https://wa.me/+919327163149", icon: "fa-whatsapp" }, 
         ].map(({ href, icon }, index) => (
           <motion.a
             key={index}
