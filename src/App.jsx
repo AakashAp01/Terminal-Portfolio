@@ -104,7 +104,7 @@ function App() {
         case "ap resume":
           newOutput = <Resume />;
           break;
-        case "ap --help":
+        case "ap help":
           newOutput = openModal();
           break;
         case "ap inspire":
@@ -126,7 +126,7 @@ function App() {
         default:
           newOutput = (
             <span className="text-red-500">
-              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"ap --help"</strong> for more info.
+              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"ap help"</strong> for more info.
             </span>
           );
       }
