@@ -202,7 +202,7 @@ function App() {
                   value={command}
                   onChange={(e) => setCommand(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="bg-transparent border-none outline-none text-white ml-2 w-full"
+                  className="bg-transparent border-none outline-none text-sm text-white ml-1 w-full"
                   autoFocus
                 />
               </div>
