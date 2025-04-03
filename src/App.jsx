@@ -18,6 +18,7 @@ import MusicPlayer from "./components/MusicPlayer";
 import Animate from "./components/Animate";
 import TypeMusic from "./assets/type2.wav";
 import DevCard from "./components/DevCard";
+import Draggable from "react-draggable";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -144,82 +145,79 @@ function App() {
 
   return (
     <>
+
       <SpeedInsights />
       <Analytics />
       <Header />
-      <div className="overflow-hidden  text-green-400 font-mono min-h-[95%] flex items-center justify-center p-4">
-        <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">
-          {/* Terminal Header */}
-          <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500">
-            <div className="flex gap-2">
-              <div
-                className="w-3 h-3 bg-red-500 rounded-full flex items-center justify-center text-transparent group hover:text-white cursor-pointer"
-                title="Refresh"
-                onClick={() => window.location.reload()}
-              >
-                <span className="group-hover:block text-[8px]">✖</span>
-              </div>
-              <div
-                className="w-3 h-3 bg-yellow-500 rounded-full"
-                title="Back"
-                onClick={() => window.history.back()}
-              ></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-            <p className="text-gray-400 text-sm truncate" >~/Portfolio/AakashAp &nbsp;
-              <i
-                className="fa-solid fa-info-circle text-green-500 cursor-pointer"
-                title="Command Info"
-                onClick={openModal}
-              />
-            </p>
-            <CmdModal isModalOpen={isModalOpen} closeModal={closeModal} />
-          </div>
-
-          {/* Terminal Body */}
-          <div className="p-4 md:p-6 h-[500px] max-h-[80vh] overflow-y-auto">
-            <Type />
-
-            <motion.hr
-              className="my-4 border-green-500 opacity-50"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 0.5 }}
-            />
-
-            {/* Output Section */}
-            <div className="mt-4 text-lg space-y-2">
-              {output.map((item, index) => (
-                <div key={index}>
-                  <p>
-                    <span className="text-green-500">>_</span>
-                    {item.command}
-                  </p>
-                  <div className="text-white break-words">{item.response}</div>
+      <div className="overflow-hidden text-green-400 font-mono min-h-[95%] flex items-center justify-center p-4 relative">
+        <Draggable handle=".drag-handle" bounds="parent">
+          <div className="w-full max-w-4xl border border-green-500 rounded-lg shadow-lg relative">
+            {/* Terminal Header */}
+            <div className="bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500 drag-handle cursor-move">
+              <div className="flex gap-2">
+                <div
+                  className="w-3 h-3 bg-red-500 rounded-full flex items-center justify-center text-transparent group hover:text-white cursor-pointer"
+                  title="Refresh"
+                  onClick={() => window.location.reload()}
+                >
+                  <span className="group-hover:block text-[8px]">✖</span>
                 </div>
-              ))}
+                <div className="w-3 h-3 bg-yellow-500 rounded-full" title="Back" onClick={() => window.history.back()}></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              </div>
+              <p className="text-gray-400 text-sm truncate">
+                ~/Portfolio/AakashAp &nbsp;
+                <i className="fa-solid fa-info-circle text-green-500 cursor-pointer" title="Command Info" onClick={openModal} />
+              </p>
             </div>
 
-
-            {/* Input Field */}
-            <div className="mt-4 flex items-center">
-              <span className="text-green-500 text-lg">>_</span>
-              <input
-                type="text"
-                value={command}
-                onChange={(e) => setCommand(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="bg-transparent border-none outline-none text-white ml-2 w-full text-lg"
-                autoFocus
+            {/* Terminal Body */}
+            <div className="p-4 md:p-6 h-[450px] max-h-[80vh] overflow-y-auto">
+              <Type />
+              <motion.hr
+                className="my-4 border-green-500 opacity-50"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 0.5 }}
               />
+
+              {/* Output Section */}
+              <div className="mt-4 space-y-2 text-sm">
+                {output.map((item, index) => (
+                  <div key={index}>
+                    <p>
+                      <span className="text-green-500">>_</span>
+                      {item.command}
+                    </p>
+                    <div className="text-white break-words">{item.response}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Input Field */}
+              <div className="mt-4 flex items-center">
+                <span className="text-green-500">>_</span>
+                <input
+                  type="text"
+                  value={command}
+                  onChange={(e) => setCommand(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="bg-transparent border-none outline-none text-white ml-2 w-full"
+                  autoFocus
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </Draggable>
+
+        {/* Command Modal */}
+        <CmdModal isModalOpen={isModalOpen} closeModal={closeModal} />
       </div>
 
+
       {/* Footer - Made with Passion */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full text-center px-4">
-        <p className="ml-2">
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm flex items-center justify-center w-full text-center p-4">
+        <p>
           <span className="text-lg" >©</span>Copyright {new Date().getFullYear()}
           <a
             href="https://github.com/aakashap01"
@@ -232,6 +230,7 @@ function App() {
           |&nbsp; Powered by Passion ⚡ and ❤️
         </p>
       </div>
+
     </>
   );
 

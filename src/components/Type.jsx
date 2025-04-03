@@ -4,9 +4,9 @@ import { useMemo } from "react";
 
 function getRandomizedWords() {
   const words = [
-    "A Laravel Developer",
-    "A MERN Stack Developer",
-    "A Passionate Programmer",
+    "A Laravel Developer.",
+    "A MERN Stack Developer.",
+    "A Passionate Programmer.",
     "Welcome to my Portfolio!",
     "Code. Create. Conquer.",
     "Building Scalable Solutions.",
@@ -37,7 +37,7 @@ function Type() {
 
   return (
     <motion.div
-      className="text-sm md:text-xl lg:text-2xl font-mono"
+      className="text-sm md:text-xl lg:text-1xl font-mono"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}

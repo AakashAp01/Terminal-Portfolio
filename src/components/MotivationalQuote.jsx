@@ -15,7 +15,7 @@ export default function MotivationalQuote() {
     return (
         <div className="p-4 rounded-lg bg-transparent mx-auto">
             <motion.p
-                className={`text-lg font-semibold italic ${color}`}
+                className={`text-sm font-semibold italic ${color}`}
                 key={quote}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}

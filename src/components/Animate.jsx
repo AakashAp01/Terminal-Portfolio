@@ -7,7 +7,7 @@ export default function Animate({ text = "This is animated text." }) {
     "#FFD700", "#4682B4", "#FF69B4"
   ];
 
-  const maxCharsPerLine = 10;
+  const maxCharsPerLine = 15;
   const words = text.split(" ");
   const lines = [];
   let currentLine = "";
@@ -36,7 +36,7 @@ export default function Animate({ text = "This is animated text." }) {
               x={`${5 + index * 6}%`}
               y={`${(lineIndex + 1) * 50}`}
               textAnchor="middle"
-              fontSize="30"
+              fontSize="60"
               fontWeight="bold"
               stroke={colors[(index + lineIndex) % colors.length]}
               strokeWidth="1"

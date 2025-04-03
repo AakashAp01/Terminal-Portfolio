@@ -16,7 +16,7 @@ export default function Contact() {
           ✉️ aakashap309@gmail.com
         </a>
       </p>
-      <p className="mt-2 text-gray-300">Feel free to drop a message! 🚀</p>
+      <p className="mt-2 text-gray-300 text-lg">Feel free to drop a message! 🚀</p>
 
  
       <div className="flex justify-center gap-5 mt-5">

@@ -13,13 +13,13 @@ export default function About() {
             <img
               src={profile}
               alt="Profile"
-              className="w-full h-full object-cover "
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
 
         <div className="flex-1 space-y-4 text-left">
-          <p className="text-lg leading-relaxed">
+          <p className="leading-relaxed">
             Hey, I'm <span className="text-green-500">Aakash Prajapati</span>, a passionate Fullstack Web Developer. 
             My expertise lies in developing scalable web applications using 
             <span className="text-green-500"> Laravel</span>, with a strong focus on 
@@ -28,14 +28,14 @@ export default function About() {
             optimizing queries, and ensuring smooth deployments on production servers.
           </p>
 
-          <p className="text-lg leading-relaxed">
+          <p className="leading-relaxed">
             In addition to my professional experience, I am a self-taught developer in 
             <span className="text-green-500"> React.js, Node.js, Express.js</span>, and 
             <span className="text-green-500"> Laravel Livewire</span>. 
             I continuously expand my skill set to stay updated with modern web technologies.
           </p>
 
-          <p className="text-lg leading-relaxed">
+          <p className="leading-relaxed">
             I am proficient in version control (<span className="text-green-500">Git, GitHub</span>) 
             and have experience deploying applications using 
             <span className="text-green-500"> cPanel and Hostinger</span>. 
