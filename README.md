@@ -5,7 +5,7 @@
 ---
 
 ## 🌐 Live Demo  
-🔗 [Visit My Portfolio](https://aakashap-terminal-portfolio.vercel.app/)  
+🔗 [Visit My Portfolio](https://aakashap.vercel.app)  
 
 ---
 
