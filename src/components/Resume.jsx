@@ -5,7 +5,7 @@ import resume from "../assets/Akash_Laravel_Developer_Resume.pdf";
 export default function Resume() {
   return (
     <motion.div
-      className=" text-white p-4 rounded-2xl shadow-lg max-w-md  mt-6 border border-green-400"
+      className=" text-white p-4 rounded-lg shadow-lg max-w-md  mt-6 border border-green-400"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

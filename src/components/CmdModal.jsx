@@ -63,7 +63,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
                   </span>
                   <button
                     onClick={() => copyToClipboard(cmd.name)}
-                    className="ml-2 px-2 py-1 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition duration-200 flex items-center gap-1 text-xs sm:text-sm"
+                    className="ml-2 px-2 py-1 bg-gray-700 text-white cursor-pointer rounded-md hover:bg-gray-600 transition duration-200 flex items-center gap-1 text-xs sm:text-sm"
                   >
                     {copiedCommand === cmd.name ? (
                       <i className="fas fa-check text-green-400"></i>

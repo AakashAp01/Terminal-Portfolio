@@ -19,7 +19,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-auto p-4 flex justify-center items-center">
+    <header className="w-auto pt-4 pb-2 flex justify-center items-center">
       {/* GitHub Star Button */}
       <motion.a
         href="https://github.com/aakashap01/react-portfolio"

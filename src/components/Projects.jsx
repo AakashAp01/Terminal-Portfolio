@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Projects() {
   const [expanded, setExpanded] = useState(null);
@@ -58,51 +58,67 @@ export default function Projects() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="mx-auto px-6 py-10">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project, index) => (
           <motion.div
             key={index}
-            className="p-5 rounded-xl shadow-md border border-green-500 transition-all duration-300 hover:shadow-lg hover:border-green-400 hover:scale-105"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-black/30 border border-green-500 hover:border-green-400 hover:shadow-green-500/20 shadow-xl 
+                       backdrop-blur-md rounded-2xl p-5 text-white transition-all duration-300 hover:scale-[1.02]"
           >
             <div
               className="flex items-center justify-between cursor-pointer"
               onClick={() => toggleExpand(index)}
             >
               <div className="flex items-center gap-3">
-                <i className="fa-solid fa-code text-green-400 text-2xl"></i>
-                <h3 className="text-lg font-semibold text-white">{project.name}</h3>
+                <i className="fa-solid fa-code text-green-400 text-xl"></i>
+                <h3 className="text-lg font-semibold">{project.name}</h3>
               </div>
-              <i className={`fa-solid ${expanded === index ? "fa-chevron-up" : "fa-chevron-down"} text-green-400`}></i>
+              <motion.i
+                className="fa-solid fa-chevron-down text-green-400"
+                animate={{ rotate: expanded === index ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              />
             </div>
 
-            <motion.div
-              initial={false}
-              animate={{ height: expanded === index ? "auto" : 0, opacity: expanded === index ? 1 : 0 }}
-              className="overflow-hidden"
-            >
-              <p className="text-gray-300 text-sm mt-3">{project.description}</p>
-
-              <div className="mt-2">
-                <h4 className="text-green-400 font-semibold text-sm">Technologies Used:</h4>
-                <ul className="list-disc list-inside text-gray-300 text-sm">
-                  {project.technologies.map((tech, i) => (
-                    <li key={i}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-400 hover:underline flex items-center gap-2 mt-2"
+            <AnimatePresence initial={false}>
+              {expanded === index && (
+                <motion.div
+                  key="content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden mt-4 space-y-3"
                 >
-                  <i className="fa-brands fa-github"></i> View on GitHub
-                </a>
+                  <p className="text-gray-300 text-sm">{project.description}</p>
+
+                  <div>
+                    <h4 className="text-green-400 font-semibold text-sm">🛠 Technologies:</h4>
+                    <ul className="list-disc list-inside text-gray-300 text-sm pl-2">
+                      {project.technologies.map((tech, i) => (
+                        <li key={i}>{tech}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-green-300 hover:text-green-500 text-sm transition"
+                    >
+                      <i className="fa-brands fa-github" />
+                      View on GitHub
+                    </a>
+                  )}
+                </motion.div>
               )}
-            </motion.div>
+            </AnimatePresence>
           </motion.div>
         ))}
       </div>

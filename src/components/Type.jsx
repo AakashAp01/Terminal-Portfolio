@@ -37,7 +37,8 @@ function Type() {
 
   return (
     <motion.div
-      className="text-sm md:text-xl lg:text-1xl font-mono"
+      className="text-sm md:text-xl lg:text-1xl mono"
+
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
