@@ -19,17 +19,28 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-auto pt-4 pb-2 flex justify-center items-center">
-      {/* GitHub Star Button */}
+    <header className="w-full py-4 flex justify-center items-center z-50 bg-black relative">
       <motion.a
         href="https://github.com/aakashap01/react-portfolio"
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-green-500 px-4 py-2 rounded-lg flex items-center gap-2 text-white font-medium hover:bg-green-600 transition duration-300"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{
+          scale: 1.08,
+          // backgroundColor: "rgba(34,197,94,0.2)",
+          boxShadow: "0 0 15px #22c55e",
+        }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        className="px-6 py-2 border border-green-500 rounded-sm text-white flex items-center gap-3 bg-black/40 backdrop-blur-md hover:bg-black/60 hover:border-green-400 transition-all duration-300 shadow-lg hover:shadow-green-500/30"
       >
-        <i className="fa-brands fa-github"></i> GitHub Star {stars !== null ? `⭐ ${stars}` : ""}
+        <motion.i
+          className="fa-brands fa-github text-green-400"
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        />
+        <span className="font-mono tracking-wide">
+          Star on GitHub {stars !== null ? `⭐ ${stars}` : ""}
+        </span>
       </motion.a>
     </header>
   );

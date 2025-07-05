@@ -20,7 +20,6 @@ import TypeMusic from "./assets/type2.wav";
 import DevCard from "./components/DevCard";
 import Footer from "./components/Footer";
 
-
 function App() {
   const [command, setCommand] = useState("");
   const [output, setOutput] = useState([]);
