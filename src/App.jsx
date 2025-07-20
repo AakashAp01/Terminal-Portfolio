@@ -77,12 +77,12 @@ function App() {
 
     if (cmd.toLowerCase() === "on typing sound") {
       setTypingSoundEnabled(true);
-      newOutput = <span className="text-green-500">Typing sound enabled! 🔊</span>;
+      newOutput = <span className="text-green-500 m-4">Typing sound enabled! 🔊</span>;
     } else if (cmd.toLowerCase() === "off typing sound") {
       setTypingSoundEnabled(false);
       Tmusic.pause();
       Tmusic.currentTime = 0;
-      newOutput = <span className="text-red-500">Typing sound disabled! 🔇</span>;
+      newOutput = <span className="text-red-500 m-4">Typing sound disabled! 🔇</span>;
     } else if (cmd.toLowerCase().startsWith("animate:")) {
       const textToWrite = cmd.split(":")[1].trim();
       if (textToWrite) {
@@ -155,7 +155,7 @@ function App() {
       <SpeedInsights />
       <Analytics />
       <Header />
-      <div className="m-2 text-green-400 font-mono relative flex items-center justify-center">
+      <div className="m-2 text-green-400 font-mono relative overflow-hidden flex items-center justify-center">
 
 
         {/* Terminal Header */}
@@ -180,10 +180,10 @@ function App() {
                 title="Refresh"
                 onClick={() => window.location.reload()}
               ></div>
-              <div
+             <div
                 className="w-4 h-4 bg-yellow-500 rounded-full cursor-pointer"
                 title="Back"
-                onClick={() => window.history.back()}
+                onClick={() => alert("Happy to see you here 😁💖")}
               ></div>
               <div
                 className="w-4 h-4 bg-green-500 rounded-full cursor-pointer hover:text-white"
