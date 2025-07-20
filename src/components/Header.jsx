@@ -19,7 +19,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full py-4 flex justify-center items-center gap-4 z-50 bg-black relative">
+    <header className="w-full py-3 flex justify-center items-center gap-3 sm:gap-4 z-50 bg-black relative">
       {/* GitHub Repo Button */}
       <motion.a
         href="https://github.com/aakashap01/react-portfolio"
@@ -28,7 +28,7 @@ export default function Header() {
         whileHover={{ scale: 1.08, boxShadow: "0 0 15px #22c55e" }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 300, damping: 15 }}
-        className="px-6 py-2 border border-green-500 rounded-sm text-white flex items-center gap-3 bg-black/40 backdrop-blur-md hover:bg-black/60 hover:border-green-400 transition-all duration-300 shadow-lg hover:shadow-green-500/30"
+        className="px-4 sm:px-6 py-1.5 sm:py-2 border border-green-500 rounded-sm text-white flex items-center gap-2 sm:gap-3 text-sm sm:text-base bg-black/40 backdrop-blur-md hover:bg-black/60 hover:border-green-400 transition-all duration-300 shadow-lg hover:shadow-green-500/30"
       >
         <motion.i
           className="fa-brands fa-github text-green-400"
@@ -48,7 +48,7 @@ export default function Header() {
         whileHover={{ scale: 1.08, boxShadow: "0 0 15px #3b82f6" }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 300, damping: 15 }}
-        className="px-6 py-2 border border-blue-500 rounded-sm text-white flex items-center gap-3 bg-black/40 backdrop-blur-md hover:bg-black/60 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/30"
+        className="px-4 sm:px-6 py-1.5 sm:py-2 border border-blue-500 rounded-sm text-white flex items-center gap-2 sm:gap-3 text-sm sm:text-base bg-black/40 backdrop-blur-md hover:bg-black/60 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-blue-500/30"
       >
         <motion.i
           className="fa-solid fa-arrow-up-right-from-square text-blue-400"

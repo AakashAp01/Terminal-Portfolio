@@ -19,7 +19,10 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "ap --music", description: "Play cold background music" },
     { name: "on typing sound", description: "Enable typing sound" },
     { name: "off typing sound", description: "Disable typing sound" },
-    { name: "animate:{your-text}", description: "Display animated text in a colorful, drawn style" }
+    { name: "animate:{your-text}", description: "Display animated text" },
+    { name: "🟢", description: "Full screen terminal" },
+    { name: "🟡", description: "WelCome alert message" },
+    { name: "🔴", description: "Refresh the page" }
   ];
 
   const copyToClipboard = (text) => {
@@ -61,16 +64,18 @@ export default function CmdModal({ isModalOpen, closeModal }) {
                   <span className="flex-1">
                     <span className="text-green-400 font-semibold">👉 {cmd.name}</span> - {cmd.description}
                   </span>
-                  <button
-                    onClick={() => copyToClipboard(cmd.name)}
-                    className="ml-2 px-2 py-1 bg-gray-700 text-white cursor-pointer rounded-md hover:bg-gray-600 transition duration-200 flex items-center gap-1 text-xs sm:text-sm"
-                  >
-                    {copiedCommand === cmd.name ? (
-                      <i className="fas fa-check text-green-400"></i>
-                    ) : (
-                      <i className="fas fa-clone" title="Copy"></i>
-                    )}
-                  </button>
+                  {!["🟢", "🟡", "🔴"].includes(cmd.name) && (
+                    <button
+                      onClick={() => copyToClipboard(cmd.name)}
+                      className="ml-2 px-2 py-1 bg-gray-700 text-white cursor-pointer rounded-md hover:bg-gray-600 transition duration-200 flex items-center gap-1 text-xs sm:text-sm"
+                    >
+                      {copiedCommand === cmd.name ? (
+                        <i className="fas fa-check text-green-400"></i>
+                      ) : (
+                        <i className="fas fa-clone" title="Copy"></i>
+                      )}
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
