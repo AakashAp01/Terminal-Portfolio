@@ -55,7 +55,7 @@ export default function Header() {
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ repeat: Infinity, duration: 2 }}
         />
-        <span className="font-mono tracking-wide">New Portfolio</span>
+        <span className="font-mono tracking-wide">Work Portfolio</span>
       </motion.a>
     </header>
   );
