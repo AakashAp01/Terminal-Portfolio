@@ -25,7 +25,7 @@ export default function Contact() {
           { href: "https://www.linkedin.com/in/aakashap", icon: "fa-linkedin" },
           { href: "https://www.facebook.com/share/1HPLsmLaTn/", icon: "fa-facebook" },
           { href: "https://www.instagram.com/_aakash_ap_/", icon: "fa-instagram" },
-          { href: "https://x.com/akashap01", icon: "fa-x-twitter" },
+          { href: "https://x.com/_aakash_ap_", icon: "fa-x-twitter" },
         ].map(({ href, icon }, index) => (
           <motion.a
             key={index}
