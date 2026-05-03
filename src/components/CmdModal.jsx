@@ -34,7 +34,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
   return (
     <>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[70] p-4">
           <motion.div
             className="relative bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-xl"
             initial={{ opacity: 0, scale: 0.9 }}

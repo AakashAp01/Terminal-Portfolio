@@ -155,7 +155,7 @@ function App() {
       <SpeedInsights />
       <Analytics />
       <Header />
-      <div className="m-2 text-green-400 font-mono relative overflow-hidden flex items-center justify-center">
+      <div className="m-2 text-green-400 font-mono relative flex items-center justify-center min-h-[500px]">
 
 
         {/* Terminal Header */}
@@ -166,7 +166,7 @@ function App() {
           dragMomentum={false}
           layout
           transition={{ type: "spring", damping: 20, stiffness: 150 }}
-          className={`${isFullScreen ? "fixed inset-0 z-50 m-0" : "w-full max-w-4xl"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md`}
+          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md`}
         >
           {/* Terminal Header */}
           <div

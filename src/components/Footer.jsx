@@ -11,7 +11,7 @@ function Footer() {
             rel="noopener noreferrer"
             className="text-green-400 hover:underline"
           >
-            AakashAp
+            AkashAp
           </a>{" "}
           | Powered by Passion ⚡ and ❤️
         </p>
