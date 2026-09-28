@@ -6,7 +6,6 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import CmdModal from "./components/CmdModal";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import MenuBar from "./components/MenuBar";
 import Dock from "./components/Dock";
 import Spotlight from "./components/Spotlight";
 import Window from "./components/Window";
@@ -105,10 +104,9 @@ function App() {
     <>
       <SpeedInsights />
       <Analytics />
-      <MenuBar onRun={runCommand} onHelp={() => setIsModalOpen(true)} onSpotlight={() => setIsSpotlightOpen(true)} />
       <Header />
 
-      <div ref={desktopRef} className="m-2 mb-32 text-green-400 font-mono relative min-h-[560px] md:min-h-[700px]">
+      <div ref={desktopRef} className="m-2 mb-4 text-green-400 font-mono relative min-h-[560px] md:min-h-[max(600px,calc(100dvh_-_90px))]">
         <AnimatePresence>
           {windows.length === 0 && (
             <motion.div

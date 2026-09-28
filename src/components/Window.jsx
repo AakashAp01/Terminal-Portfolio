@@ -49,7 +49,7 @@ export default function Window({ win, title, focused, zIndex, desktopRef, onFocu
   const offsetToDock = () => {
     const r = frameRef.current.getBoundingClientRect();
     const t = dockTarget(win.appId);
-    return { x: t.x - (r.left + r.width / 2), y: t.y - (r.top + r.height / 2) };
+    return { x: t.x - (r.left + r.width / 2), y: t.y - r.bottom };
   };
 
   const genieIn = () => {
