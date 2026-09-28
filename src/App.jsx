@@ -187,7 +187,7 @@ function App() {
           dragListener={false}
           dragControls={dragControls}
           dragConstraints={desktopRef}
-          dragElastic={0.12}
+          dragElastic={0}
           dragMomentum={false}
           style={{ x: dragX, y: dragY }}
           onDragStart={() => setIsDragging(true)}

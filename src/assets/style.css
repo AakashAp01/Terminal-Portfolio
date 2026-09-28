@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html, body {
+    overflow-x: hidden;
+}
+
 /* Custom Green Scrollbar */
 ::-webkit-scrollbar {
     width: 5px;
