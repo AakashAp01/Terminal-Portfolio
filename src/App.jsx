@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useDragControls } from "framer-motion";
 import Type from "./components/Type";
 import { useState , useRef ,useEffect } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -30,11 +30,34 @@ function App() {
   const terminalRef = useRef(null);
   const Tmusic = new Audio(TypeMusic);
   const [typingSoundEnabled, setTypingSoundEnabled] = useState(false);
+
+  // Window drag state — mimics macOS: drag only from the title bar,
+  // position stays wherever it's dropped, and resets cleanly on fullscreen.
+  const desktopRef = useRef(null);
+  const dragControls = useDragControls();
+  const dragX = useMotionValue(0);
+  const dragY = useMotionValue(0);
+  const [isDragging, setIsDragging] = useState(false);
+
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [output]);
+
+  useEffect(() => {
+    if (isFullScreen) {
+      dragX.set(0);
+      dragY.set(0);
+    }
+  }, [isFullScreen]);
+
+  const startWindowDrag = (e) => {
+    if (isFullScreen) return;
+    dragControls.start(e);
+  };
+
+  const stopHeaderPropagation = (e) => e.stopPropagation();
   const handleKeyDown = (e) => {
     if (typingSoundEnabled && (e.key.length === 1 || e.key === "Backspace")) {
       if (Tmusic.paused) {
@@ -155,47 +178,65 @@ function App() {
       <SpeedInsights />
       <Analytics />
       <Header />
-      <div className="m-2 text-green-400 font-mono relative flex items-center justify-center min-h-[500px]">
+      <div ref={desktopRef} className="m-2 text-green-400 font-mono relative flex items-center justify-center min-h-[560px] md:min-h-[700px]">
 
 
-        {/* Terminal Header */}
+        {/* Terminal Window */}
         <motion.div
           drag={!isFullScreen}
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-          dragElastic={0.2}
+          dragListener={false}
+          dragControls={dragControls}
+          dragConstraints={desktopRef}
+          dragElastic={0.12}
           dragMomentum={false}
-          layout
-          transition={{ type: "spring", damping: 20, stiffness: 150 }}
-          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md`}
+          style={{ x: dragX, y: dragY }}
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={() => setIsDragging(false)}
+          whileDrag={{ scale: 1.01, boxShadow: "0 25px 60px -12px rgba(34,197,94,0.45)" }}
+          transition={{ type: "spring", damping: 22, stiffness: 200 }}
+          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md transition-[max-width,border-radius] duration-300`}
         >
-          {/* Terminal Header */}
+          {/* Terminal Header (title bar — the only draggable region, like macOS) */}
           <div
-            className={`bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500 drag-handle ${
-              isFullScreen ? "" : "cursor-move"
+            onPointerDown={startWindowDrag}
+            onDoubleClick={() => setIsFullScreen((f) => !f)}
+            className={`bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500 drag-handle select-none touch-none ${
+              isFullScreen ? "" : isDragging ? "cursor-grabbing" : "cursor-grab"
             }`}
           >
-            <div className="flex gap-2">
+            <div
+              className="flex gap-2"
+              onPointerDown={stopHeaderPropagation}
+              onDoubleClick={stopHeaderPropagation}
+            >
               <div
-                className="w-4 h-4 bg-red-500 rounded-full hover:text-white cursor-pointer"
+                className="group relative w-4 h-4 bg-red-500 rounded-full cursor-pointer flex items-center justify-center"
                 title="Refresh"
                 onClick={() => window.location.reload()}
-              ></div>
+              >
+                <i className="fa-solid fa-xmark text-[8px] leading-none text-red-950 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              </div>
              <div
-                className="w-4 h-4 bg-yellow-500 rounded-full cursor-pointer"
+                className="group relative w-4 h-4 bg-yellow-500 rounded-full cursor-pointer flex items-center justify-center"
                 title="Back"
                 onClick={() => alert("Happy to see you here 😁💖")}
-              ></div>
+              >
+                <i className="fa-solid fa-minus text-[8px] leading-none text-yellow-950 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              </div>
               <div
-                className="w-4 h-4 bg-green-500 rounded-full cursor-pointer hover:text-white"
+                className="group relative w-4 h-4 bg-green-500 rounded-full cursor-pointer flex items-center justify-center"
                 title={isFullScreen ? "Minimize" : "Full Screen"}
                 onClick={() => setIsFullScreen(!isFullScreen)}
-              ></div>
+              >
+                <i className={`fa-solid ${isFullScreen ? "fa-compress" : "fa-expand"} text-[6px] leading-none text-green-950 opacity-0 group-hover:opacity-100 transition-opacity`}></i>
+              </div>
             </div>
             <p className="text-gray-400 text-sm truncate flex-1 text-end">
               ~/Portfolio/AakashAp &nbsp;
               <i
                 className="fa-solid fa-info-circle text-green-500 cursor-pointer"
                 title="Command Info"
+                onPointerDown={stopHeaderPropagation}
                 onClick={openModal}
               />
             </p>
