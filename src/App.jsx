@@ -1,49 +1,30 @@
-import { motion, AnimatePresence, useMotionValue, useDragControls } from "framer-motion";
-import Type from "./components/Type";
-import { useState , useRef ,useEffect } from "react";
-import { SpeedInsights } from "@vercel/speed-insights/react"
-import { Analytics } from '@vercel/analytics/react';
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import About from "./components/About";
-import TechStack from "./components/TechStack";
-import Resume from "./components/Resume";
-import Contact from "./components/Contact";
 import CmdModal from "./components/CmdModal";
 import Header from "./components/Header";
-import Projects from "./components/Projects";
-import GitHubStats from "./components/GitHubStats";
-import MotivationalQuote from "./components/MotivationalQuote";
-import LaughComponent from "./components/Laugh";
-import MusicPlayer from "./components/MusicPlayer";
-import Animate from "./components/Animate";
-import TypeMusic from "./assets/type2.wav";
-import DevCard from "./components/DevCard";
 import Footer from "./components/Footer";
 import MenuBar from "./components/MenuBar";
 import Dock from "./components/Dock";
 import Spotlight from "./components/Spotlight";
-import { COMPLETIONS } from "./commands";
+import Window from "./components/Window";
+import Terminal from "./components/Terminal";
+import { APPS } from "./commands";
+
+let nextId = 1;
+
+const appLabel = (appId) => (appId === "terminal" ? "Terminal" : APPS.find((a) => a.id === appId)?.label);
 
 function App() {
-  const [command, setCommand] = useState("");
-  const [output, setOutput] = useState([]);
-  const [commandHistory, setCommandHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const inputRef = useRef(null);
-  const terminalRef = useRef(null);
-  const Tmusic = new Audio(TypeMusic);
-  const [typingSoundEnabled, setTypingSoundEnabled] = useState(false);
-
-  // Window drag state — mimics macOS: drag only from the title bar,
-  // position stays wherever it's dropped, and resets cleanly on fullscreen.
-  const desktopRef = useRef(null);
-  const dragControls = useDragControls();
-  const dragX = useMotionValue(0);
-  const dragY = useMotionValue(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [windows, setWindows] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
+  const [typingSound, setTypingSound] = useState(false);
+  const [focusSignal, setFocusSignal] = useState(0);
+  const desktopRef = useRef(null);
+  const zCounter = useRef(0);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -56,351 +37,143 @@ function App() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-    }
-  }, [output]);
+  const live = windows.filter((w) => !w.closing);
+  const visible = live.filter((w) => !w.minimized);
+  const focusedId = visible.reduce((top, w) => (!top || w.z > top.z ? w : top), null)?.id;
+  const stackOrder = [...windows].sort((a, b) => a.z - b.z).map((w) => w.id);
+  const openApps = new Set(live.map((w) => w.appId));
+  const anyFullScreen = visible.some((w) => w.fullScreen);
 
-  useEffect(() => {
-    if (isFullScreen) {
-      dragX.set(0);
-      dragY.set(0);
-    }
-  }, [isFullScreen, dragX, dragY]);
+  const updateWindow = (id, patch) => setWindows((ws) => ws.map((w) => (w.id === id ? { ...w, ...patch } : w)));
 
-  const startWindowDrag = (e) => {
-    if (isFullScreen) return;
-    dragControls.start(e);
+  const cascadeOffset = (n) => {
+    const el = desktopRef.current;
+    if (!el || window.innerWidth < 640) return { x: 0, y: 0 };
+    const step = (n % 6) * 28;
+    const roomX = Math.max(0, (el.clientWidth - Math.min(896, el.clientWidth)) / 2);
+    const roomY = Math.max(0, el.clientHeight - 32 - 530);
+    return { x: Math.min(step, roomX), y: Math.min(step, roomY) };
   };
 
-  const stopHeaderPropagation = (e) => e.stopPropagation();
-
-  const focusTerminal = () => requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
-
-  const minimizeWindow = () => {
-    setIsFullScreen(false);
-    setIsMinimized(true);
-    inputRef.current?.blur();
+  const openApp = (appId, cmd) => {
+    const z = ++zCounter.current;
+    const queued = cmd ? { id: nextId++, cmd } : null;
+    const offset = cascadeOffset(live.length);
+    const id = nextId++;
+    setWindows((ws) => {
+      const existing = ws.find((w) => w.appId === appId && !w.closing);
+      if (existing) {
+        return ws.map((w) =>
+          w === existing ? { ...w, z, minimized: false, queued: appId === "terminal" && queued ? queued : w.queued } : w
+        );
+      }
+      return [...ws, { id, appId, z, offset, queued, minimized: false, fullScreen: false, closing: false }];
+    });
   };
 
-  const restoreWindow = () => {
-    setIsMinimized(false);
-    focusTerminal();
-  };
+  const openFromDock = (appId) => openApp(appId, APPS.find((a) => a.id === appId)?.cmd);
 
-  const runCommand = (cmd) => {
-    setCommandHistory((history) => [cmd, ...history]);
-    setHistoryIndex(-1);
-    executeCommand(cmd);
-    restoreWindow();
+  const focusWindow = (id) =>
+    setWindows((ws) => {
+      const top = Math.max(...ws.map((w) => w.z));
+      const target = ws.find((w) => w.id === id);
+      if (!target || target.z === top) return ws;
+      const z = ++zCounter.current;
+      return ws.map((w) => (w.id === id ? { ...w, z } : w));
+    });
+
+  const closeAll = () => setWindows((ws) => ws.map((w) => ({ ...w, closing: true })));
+  const removeWindow = (id) => setWindows((ws) => ws.filter((w) => w.id !== id));
+
+  const runCommand = (raw) => {
+    const cmd = raw.trim();
+    const lc = cmd.toLowerCase();
+    if (!cmd) return;
+    if (lc === "ap help") return setIsModalOpen(true);
+    if (lc === "clear" || lc === "cls") return closeAll();
+    const app = APPS.find((a) => a.cmd === lc);
+    if (app) openApp(app.id, app.cmd);
+    else openApp("terminal", cmd);
   };
 
   const closeSpotlight = () => {
     setIsSpotlightOpen(false);
-    if (!isMinimized) focusTerminal();
+    setFocusSignal((n) => n + 1);
   };
-
-  const completeCommand = () => {
-    const input = command.toLowerCase();
-    if (!input) return;
-    const matches = COMPLETIONS.filter((c) => c.startsWith(input));
-    if (matches.length === 0) return;
-    const prefix = matches.reduce((p, m) => {
-      let i = 0;
-      while (i < p.length && p[i] === m[i]) i++;
-      return p.slice(0, i);
-    });
-    if (prefix.length > input.length) {
-      setCommand(prefix);
-    } else if (matches.length > 1) {
-      setOutput((prev) => [
-        ...prev,
-        { command, response: <span className="text-gray-400 whitespace-pre-wrap">{matches.join("    ")}</span> },
-      ]);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (typingSoundEnabled && (e.key.length === 1 || e.key === "Backspace")) {
-      if (Tmusic.paused) {
-        Tmusic.currentTime = 0;
-        Tmusic.play().catch(() => { });
-      }
-    }
-
-    if (e.key === "Enter") {
-      if (command.trim() === "") return;
-
-      setCommandHistory([command, ...commandHistory]);
-      setHistoryIndex(-1);
-      executeCommand(command);
-      setCommand("");
-
-      // Stop sound after pressing Enter
-      Tmusic.pause();
-      Tmusic.currentTime = 0;
-    } else if (e.key === "Tab") {
-      e.preventDefault();
-      completeCommand();
-    } else if (e.key === "ArrowUp") {
-      if (historyIndex < commandHistory.length - 1) {
-        setHistoryIndex(historyIndex + 1);
-        setCommand(commandHistory[historyIndex + 1]);
-      }
-    } else if (e.key === "ArrowDown") {
-      if (historyIndex > 0) {
-        setHistoryIndex(historyIndex - 1);
-        setCommand(commandHistory[historyIndex - 1]);
-      } else {
-        setHistoryIndex(-1);
-        setCommand("");
-      }
-    }
-  };
-
-  const executeCommand = (cmd) => {
-    if (!cmd.trim()) return;
-
-    let newOutput = "";
-
-    if (cmd.toLowerCase() === "on typing sound") {
-      setTypingSoundEnabled(true);
-      newOutput = <span className="text-green-500 m-4">Typing sound enabled! 🔊</span>;
-    } else if (cmd.toLowerCase() === "off typing sound") {
-      setTypingSoundEnabled(false);
-      Tmusic.pause();
-      Tmusic.currentTime = 0;
-      newOutput = <span className="text-red-500 m-4">Typing sound disabled! 🔇</span>;
-    } else if (cmd.toLowerCase().startsWith("animate:")) {
-      const textToWrite = cmd.split(":")[1].trim();
-      if (textToWrite) {
-        newOutput = <Animate text={textToWrite} />;
-      } else {
-        newOutput = <span className="text-red-500">Error: No text provided after "animate:".</span>;
-      }
-    } else {
-      switch (cmd.toLowerCase()) {
-        case "ap about":
-          newOutput = <About />;
-          break;
-        case "ap github stats":
-          newOutput = <GitHubStats />;
-          break;
-        case "ap --contact":
-          newOutput = <Contact />;
-          break;
-        case "ap tech stack":
-          newOutput = <TechStack />;
-          break;
-        case "ap --projects":
-          newOutput = <Projects />;
-          break;
-        case "ap resume":
-          newOutput = <Resume />;
-          break;
-        case "ap help":
-          newOutput = openModal();
-          break;
-        case "ap inspire":
-          newOutput = <MotivationalQuote />;
-          break;
-        case "ap make me laugh":
-          newOutput = <LaughComponent />;
-          break;
-        case "ap --music":
-          newOutput = <MusicPlayer />;
-          break;
-        case "ap dev card":
-          newOutput = <DevCard />;
-          break;
-        case "clear":
-        case "cls":
-          setOutput([]);
-          return;
-        default:
-          newOutput = (
-            <span className="text-red-500">
-              Error: Command <strong>"{cmd}"</strong> not found! Use <strong>"ap help"</strong> for more info.
-            </span>
-          );
-      }
-    }
-
-    // Append new command response to output
-    setOutput((prevOutput) => [...prevOutput, { command: cmd, response: newOutput }]);
-  };
-
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => setIsModalOpen(true);
-
-  const closeModal = () => setIsModalOpen(false);
 
   return (
     <>
-
       <SpeedInsights />
       <Analytics />
-      <MenuBar onRun={runCommand} onHelp={openModal} onSpotlight={() => setIsSpotlightOpen(true)} />
+      <MenuBar onRun={runCommand} onHelp={() => setIsModalOpen(true)} onSpotlight={() => setIsSpotlightOpen(true)} />
       <Header />
-      <div ref={desktopRef} className="m-2 sm:mb-32 text-green-400 font-mono relative flex items-center justify-center min-h-[560px] md:min-h-[700px]">
 
-
-        {/* Terminal Window */}
-        <motion.div
-          drag={!isFullScreen}
-          dragListener={false}
-          dragControls={dragControls}
-          dragConstraints={desktopRef}
-          dragElastic={0}
-          dragMomentum={false}
-          style={{ x: dragX, y: dragY, originY: 1 }}
-          animate={isMinimized ? { scale: 0.08, opacity: 0, filter: "blur(6px)" } : { scale: 1, opacity: 1, filter: "blur(0px)" }}
-          aria-hidden={isMinimized}
-          onDragStart={() => setIsDragging(true)}
-          onDragEnd={() => setIsDragging(false)}
-          whileDrag={{ scale: 1.01, boxShadow: "0 25px 60px -12px rgba(34,197,94,0.45)" }}
-          transition={{ type: "spring", damping: 22, stiffness: 200 }}
-          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md transition-[max-width,border-radius] duration-300 ${isMinimized ? "pointer-events-none" : ""}`}
-        >
-          {/* Terminal Header (title bar — the only draggable region, like macOS) */}
-          <div
-            onPointerDown={startWindowDrag}
-            onDoubleClick={() => setIsFullScreen((f) => !f)}
-            className={`bg-gray-900 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-green-500 drag-handle select-none touch-none ${
-              isFullScreen ? "" : isDragging ? "cursor-grabbing" : "cursor-grab"
-            }`}
-          >
-            <div
-              className="flex gap-2"
-              onPointerDown={stopHeaderPropagation}
-              onDoubleClick={stopHeaderPropagation}
+      <div ref={desktopRef} className="m-2 mb-32 text-green-400 font-mono relative min-h-[560px] md:min-h-[700px]">
+        <AnimatePresence>
+          {windows.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0, transition: { delay: 0.35 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center pointer-events-none select-none"
             >
-              <div
-                className="group relative w-4 h-4 bg-red-500 rounded-full cursor-pointer flex items-center justify-center"
-                title="Refresh"
-                onClick={() => window.location.reload()}
-              >
-                <i className="fa-solid fa-xmark text-[8px] leading-none text-red-950 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-              </div>
-             <div
-                className="group relative w-4 h-4 bg-yellow-500 rounded-full cursor-pointer flex items-center justify-center"
-                title="Minimize to Dock"
-                onClick={minimizeWindow}
-              >
-                <i className="fa-solid fa-minus text-[8px] leading-none text-yellow-950 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-              </div>
-              <div
-                className="group relative w-4 h-4 bg-green-500 rounded-full cursor-pointer flex items-center justify-center"
-                title={isFullScreen ? "Minimize" : "Full Screen"}
-                onClick={() => setIsFullScreen(!isFullScreen)}
-              >
-                <i className={`fa-solid ${isFullScreen ? "fa-compress" : "fa-expand"} text-[6px] leading-none text-green-950 opacity-0 group-hover:opacity-100 transition-opacity`}></i>
-              </div>
-            </div>
-            <p className="text-gray-400 text-sm truncate flex-1 text-end">
-              ~/Portfolio/AakashAp &nbsp;
-              <i
-                className="fa-solid fa-info-circle text-green-500 cursor-pointer"
-                title="Command Info"
-                onPointerDown={stopHeaderPropagation}
-                onClick={openModal}
+              <i className="fa-solid fa-terminal text-5xl text-green-500/70" />
+              <p className="text-lg text-gray-300">No windows open</p>
+              <p className="text-sm text-gray-500">
+                Click <span className="text-green-400">Terminal</span> in the Dock to get started, or press{" "}
+                <kbd className="rounded border border-white/20 px-1.5 text-gray-300">⌘K</kbd> to search.
+              </p>
+              <motion.i
+                className="fa-solid fa-arrow-down mt-4 text-green-500/60"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 1.6 }}
               />
-            </p>
-          </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {/* Terminal Body */}
-          <motion.div
-            className={`p-4 overflow-y-auto transition-all duration-500 ${
-              isFullScreen ? "h-[calc(100vh-50px)] md:p-1" : "h-[480px] md:p-6"
-            }`}
-            ref={terminalRef}
-            onClick={() => inputRef.current?.focus()}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+        {windows.map((w) => (
+          <Window
+            key={w.id}
+            win={w}
+            title={`${appLabel(w.appId)} — ~/Portfolio/AakashAp`}
+            focused={w.id === focusedId}
+            zIndex={w.fullScreen ? 62 : 10 + stackOrder.indexOf(w.id)}
+            desktopRef={desktopRef}
+            onFocus={() => focusWindow(w.id)}
+            onClose={() => updateWindow(w.id, { closing: true })}
+            onMinimize={() => updateWindow(w.id, { minimized: true, fullScreen: false })}
+            onToggleFullScreen={() => updateWindow(w.id, { fullScreen: !w.fullScreen })}
+            onClosed={removeWindow}
+            onHelp={() => setIsModalOpen(true)}
           >
-            {!isFullScreen && <Type />}
-            {!isFullScreen &&
-            <motion.hr
-              className="my-4 border-green-500 opacity-50"
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 0.5 }}
-            />}
-
-            {/* Output Section */}
-            <div className="mt-4 text-sm">
-              <AnimatePresence>
-                {output.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <p>
-                      <span className="text-green-500">{">_"}</span> {item.command}
-                    </p>
-                    <div className="text-white break-words">{item.response}</div>
-                  </motion.div>
-
-                ))}
-              </AnimatePresence>
-            </div>
-
-            {/* Input Field */}
-            <div className="flex items-center">
-              <span className="text-green-500">{">_"}</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={command}
-                onChange={(e) => setCommand(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="bg-transparent border-none outline-none text-sm text-white ml-1 w-full"
-                autoFocus
-              />
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Command Modal */}
-        <CmdModal isModalOpen={isModalOpen} closeModal={closeModal} />
+            <Terminal
+              queuedCommand={w.queued}
+              showIntro={w.appId === "terminal"}
+              isFocused={w.id === focusedId}
+              focusSignal={focusSignal}
+              fullScreen={w.fullScreen}
+              openHelp={() => setIsModalOpen(true)}
+              typingSound={typingSound}
+              setTypingSound={setTypingSound}
+            />
+          </Window>
+        ))}
       </div>
 
+      <CmdModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+
       <AnimatePresence>
-        {!isFullScreen && (
-          <Dock
-            onRun={runCommand}
-            onTerminal={restoreWindow}
-            onSpotlight={() => setIsSpotlightOpen(true)}
-          />
+        {!anyFullScreen && (
+          <Dock openApps={openApps} onOpen={openFromDock} onSpotlight={() => setIsSpotlightOpen(true)} onTrash={closeAll} />
         )}
       </AnimatePresence>
 
-      {isMinimized && (
-        <button
-          onClick={restoreWindow}
-          className="sm:hidden fixed bottom-14 left-1/2 -translate-x-1/2 z-[65] px-4 py-2 rounded-full bg-gray-900/90 border border-green-500 text-green-400 text-sm font-mono shadow-lg"
-        >
-          <i className="fa-solid fa-terminal mr-2" />Open Terminal
-        </button>
-      )}
-
       <Spotlight open={isSpotlightOpen} onClose={closeSpotlight} onRun={runCommand} />
 
-
-      {/* Footer - Made with Passion */}
       <Footer />
-
-
     </>
   );
-
 }
 
 export default App;

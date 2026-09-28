@@ -10,7 +10,7 @@ export const APPS = [
   { id: "inspire", label: "Inspire", cmd: "ap inspire", description: "Motivational quote", icon: "fa-solid fa-lightbulb", color: "from-amber-300 to-orange-500", dock: false },
   { id: "laugh", label: "Make Me Laugh", cmd: "ap make me laugh", description: "Random joke", icon: "fa-solid fa-face-laugh-squint", color: "from-yellow-300 to-amber-500", dock: false },
   { id: "help", label: "Help", cmd: "ap help", description: "All commands", icon: "fa-solid fa-circle-question", color: "from-emerald-400 to-green-600", dock: false },
-  { id: "clear", label: "Clear Terminal", cmd: "clear", description: "Empty the terminal", icon: "fa-solid fa-trash", color: "from-gray-300 to-gray-500", dock: false },
+  { id: "clear", label: "Close All Windows", cmd: "clear", description: "Move every window to the Trash", icon: "fa-solid fa-trash-can", color: "from-gray-300 to-gray-500", dock: false },
 ];
 
 export const COMPLETIONS = [
