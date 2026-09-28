@@ -19,6 +19,10 @@ import Animate from "./components/Animate";
 import TypeMusic from "./assets/type2.wav";
 import DevCard from "./components/DevCard";
 import Footer from "./components/Footer";
+import MenuBar from "./components/MenuBar";
+import Dock from "./components/Dock";
+import Spotlight from "./components/Spotlight";
+import { COMPLETIONS } from "./commands";
 
 function App() {
   const [command, setCommand] = useState("");
@@ -38,6 +42,19 @@ function App() {
   const dragX = useMotionValue(0);
   const dragY = useMotionValue(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSpotlightOpen((open) => !open);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -50,7 +67,7 @@ function App() {
       dragX.set(0);
       dragY.set(0);
     }
-  }, [isFullScreen]);
+  }, [isFullScreen, dragX, dragY]);
 
   const startWindowDrag = (e) => {
     if (isFullScreen) return;
@@ -58,6 +75,52 @@ function App() {
   };
 
   const stopHeaderPropagation = (e) => e.stopPropagation();
+
+  const focusTerminal = () => requestAnimationFrame(() => inputRef.current?.focus({ preventScroll: true }));
+
+  const minimizeWindow = () => {
+    setIsFullScreen(false);
+    setIsMinimized(true);
+    inputRef.current?.blur();
+  };
+
+  const restoreWindow = () => {
+    setIsMinimized(false);
+    focusTerminal();
+  };
+
+  const runCommand = (cmd) => {
+    setCommandHistory((history) => [cmd, ...history]);
+    setHistoryIndex(-1);
+    executeCommand(cmd);
+    restoreWindow();
+  };
+
+  const closeSpotlight = () => {
+    setIsSpotlightOpen(false);
+    if (!isMinimized) focusTerminal();
+  };
+
+  const completeCommand = () => {
+    const input = command.toLowerCase();
+    if (!input) return;
+    const matches = COMPLETIONS.filter((c) => c.startsWith(input));
+    if (matches.length === 0) return;
+    const prefix = matches.reduce((p, m) => {
+      let i = 0;
+      while (i < p.length && p[i] === m[i]) i++;
+      return p.slice(0, i);
+    });
+    if (prefix.length > input.length) {
+      setCommand(prefix);
+    } else if (matches.length > 1) {
+      setOutput((prev) => [
+        ...prev,
+        { command, response: <span className="text-gray-400 whitespace-pre-wrap">{matches.join("    ")}</span> },
+      ]);
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (typingSoundEnabled && (e.key.length === 1 || e.key === "Backspace")) {
       if (Tmusic.paused) {
@@ -77,6 +140,9 @@ function App() {
       // Stop sound after pressing Enter
       Tmusic.pause();
       Tmusic.currentTime = 0;
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      completeCommand();
     } else if (e.key === "ArrowUp") {
       if (historyIndex < commandHistory.length - 1) {
         setHistoryIndex(historyIndex + 1);
@@ -177,8 +243,9 @@ function App() {
 
       <SpeedInsights />
       <Analytics />
+      <MenuBar onRun={runCommand} onHelp={openModal} onSpotlight={() => setIsSpotlightOpen(true)} />
       <Header />
-      <div ref={desktopRef} className="m-2 text-green-400 font-mono relative flex items-center justify-center min-h-[560px] md:min-h-[700px]">
+      <div ref={desktopRef} className="m-2 sm:mb-32 text-green-400 font-mono relative flex items-center justify-center min-h-[560px] md:min-h-[700px]">
 
 
         {/* Terminal Window */}
@@ -189,12 +256,14 @@ function App() {
           dragConstraints={desktopRef}
           dragElastic={0}
           dragMomentum={false}
-          style={{ x: dragX, y: dragY }}
+          style={{ x: dragX, y: dragY, originY: 1 }}
+          animate={isMinimized ? { scale: 0.08, opacity: 0, filter: "blur(6px)" } : { scale: 1, opacity: 1, filter: "blur(0px)" }}
+          aria-hidden={isMinimized}
           onDragStart={() => setIsDragging(true)}
           onDragEnd={() => setIsDragging(false)}
           whileDrag={{ scale: 1.01, boxShadow: "0 25px 60px -12px rgba(34,197,94,0.45)" }}
           transition={{ type: "spring", damping: 22, stiffness: 200 }}
-          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md transition-[max-width,border-radius] duration-300`}
+          className={`${isFullScreen ? "fixed inset-0 z-[60] m-0" : "w-full max-w-4xl relative z-[60]"} border border-green-500 rounded-sm shadow-lg bg-black backdrop-blur-md transition-[max-width,border-radius] duration-300 ${isMinimized ? "pointer-events-none" : ""}`}
         >
           {/* Terminal Header (title bar — the only draggable region, like macOS) */}
           <div
@@ -218,8 +287,8 @@ function App() {
               </div>
              <div
                 className="group relative w-4 h-4 bg-yellow-500 rounded-full cursor-pointer flex items-center justify-center"
-                title="Back"
-                onClick={() => alert("Happy to see you here 😁💖")}
+                title="Minimize to Dock"
+                onClick={minimizeWindow}
               >
                 <i className="fa-solid fa-minus text-[8px] leading-none text-yellow-950 opacity-0 group-hover:opacity-100 transition-opacity"></i>
               </div>
@@ -274,7 +343,7 @@ function App() {
                     transition={{ duration: 0.4 }}
                   >
                     <p>
-                      <span className="text-green-500">>_</span> {item.command}
+                      <span className="text-green-500">{">_"}</span> {item.command}
                     </p>
                     <div className="text-white break-words">{item.response}</div>
                   </motion.div>
@@ -285,7 +354,7 @@ function App() {
 
             {/* Input Field */}
             <div className="flex items-center">
-              <span className="text-green-500">>_</span>
+              <span className="text-green-500">{">_"}</span>
               <input
                 ref={inputRef}
                 type="text"
@@ -302,6 +371,27 @@ function App() {
         {/* Command Modal */}
         <CmdModal isModalOpen={isModalOpen} closeModal={closeModal} />
       </div>
+
+      <AnimatePresence>
+        {!isFullScreen && (
+          <Dock
+            onRun={runCommand}
+            onTerminal={restoreWindow}
+            onSpotlight={() => setIsSpotlightOpen(true)}
+          />
+        )}
+      </AnimatePresence>
+
+      {isMinimized && (
+        <button
+          onClick={restoreWindow}
+          className="sm:hidden fixed bottom-14 left-1/2 -translate-x-1/2 z-[65] px-4 py-2 rounded-full bg-gray-900/90 border border-green-500 text-green-400 text-sm font-mono shadow-lg"
+        >
+          <i className="fa-solid fa-terminal mr-2" />Open Terminal
+        </button>
+      )}
+
+      <Spotlight open={isSpotlightOpen} onClose={closeSpotlight} onRun={runCommand} />
 
 
       {/* Footer - Made with Passion */}

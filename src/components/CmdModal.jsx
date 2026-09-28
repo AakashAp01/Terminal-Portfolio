@@ -20,9 +20,12 @@ export default function CmdModal({ isModalOpen, closeModal }) {
     { name: "on typing sound", description: "Enable typing sound" },
     { name: "off typing sound", description: "Disable typing sound" },
     { name: "animate:{your-text}", description: "Display animated text" },
-    { name: "🟢", description: "Full screen terminal" },
-    { name: "🟡", description: "WelCome alert message" },
-    { name: "🔴", description: "Refresh the page" }
+    { name: "🟢", description: "Full screen terminal", noCopy: true },
+    { name: "🟡", description: "Minimize to Dock", noCopy: true },
+    { name: "🔴", description: "Refresh the page", noCopy: true },
+    { name: "⌘K / Ctrl+K", description: "Open Spotlight search", noCopy: true },
+    { name: "Tab", description: "Autocomplete a command", noCopy: true },
+    { name: "Double-click title bar", description: "Toggle full screen", noCopy: true }
   ];
 
   const copyToClipboard = (text) => {
@@ -64,7 +67,7 @@ export default function CmdModal({ isModalOpen, closeModal }) {
                   <span className="flex-1">
                     <span className="text-green-400 font-semibold">👉 {cmd.name}</span> - {cmd.description}
                   </span>
-                  {!["🟢", "🟡", "🔴"].includes(cmd.name) && (
+                  {!cmd.noCopy && (
                     <button
                       onClick={() => copyToClipboard(cmd.name)}
                       className="ml-2 px-2 py-1 bg-gray-700 text-white cursor-pointer rounded-md hover:bg-gray-600 transition duration-200 flex items-center gap-1 text-xs sm:text-sm"
